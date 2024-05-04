@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -118,10 +119,21 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
+=======
+__pycache__/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+
+# pyenv
+.python-version
+>>>>>>> 6e91d1c (initial commit)
 
 # Environments
 .env
 .venv
+<<<<<<< HEAD
 env/
 venv/
 ENV/
@@ -137,12 +149,15 @@ venv.bak/
 
 # mkdocs documentation
 /site
+=======
+>>>>>>> 6e91d1c (initial commit)
 
 # mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
 
+<<<<<<< HEAD
 # Pyre type checker
 .pyre/
 
@@ -158,3 +173,10 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+=======
+# JetBrains
+.idea/
+
+/coverage.xml
+/.coverage
+>>>>>>> 6e91d1c (initial commit)
