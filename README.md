@@ -1,66 +1,69 @@
 # unusual-whales-api-client
 A client library for accessing Unusual Whales API
 
-## Usage
-First, create a client:
+Thank you @unusualwhales for providing an excellent api and for leaving your openapi schema unobfuscated from the network logs on your api documentation website :->)
+
+For feature requests email mac@macanderson.com - I do not provide support
+
+## Importing Modules
+You can import modules using the following syntax:
+
+from unusualwhales.client import Client
+from unusualwhales.api.[tag] import [function]
+from unusualwhales.models import [ModelNameHere]
+from unusualwhales.types import Response
 
 ```python
-from unusual_whales_api_client import Client
+import os
+from dotenv import load_dotenv
+from unusualwhales.client import AuthenticatedClient
+from unusualwhales.api.[tag] import [function]
+from unusualwhales.models import [ModelNameHere]
+from unusualwhales.types import Response
 
-client = Client(base_url="https://api.unusualwhales.com")
+load_dotenv('/path/to/.env')
+# This app requires an api token to included when initializing a new AuthenticatedClient
+# you can use python-dotenv as shown here to save it in a .env file so that you
+# do not have unsecured code
+API_TOKEN = os.environ.get("UNUSUAL_WHALES_API_TOKEN", None)
+
+client = AuthenticatedClient(base_url="https://api.unusualwhales.com", token=API_TOKEN)
 ```
 
-If the endpoints you're going to hit require authentication, use `AuthenticatedClient` instead:
 
 ```python
-from unusual_whales_api_client import AuthenticatedClient
+import os
 
-client = AuthenticatedClient(base_url="https://api.unusualwhales.com", token="SuperSecretToken")
-```
+from dotenv import load_dotenv
 
-Now call your endpoint and use your models:
+from unusualwhales.client import AuthenticatedClient
+from unusualwhales.models import TickerOptionsVolume
+from unusualwhales.api.stock import getTickerOptionsVolume
+from unusualwhales.types import Response
 
-```python
-from unusual_whales_api_client.models import MyDataModel
-from unusual_whales_api_client.api.my_tag import get_my_data_model
-from unusual_whales_api_client.types import Response
+load_dotenv('/path/to/.env')
+API_TOKEN = os.environ.get("UNUSUAL_WHALES_API_TOKEN", None)
 
+client = AuthenticatedClient(base_url="https://api.unusualwhales.com", token=API_TOKEN)
 with client as client:
-    my_data: MyDataModel = get_my_data_model.sync(client=client)
-    # or if you need more info (e.g. status_code)
-    response: Response[MyDataModel] = get_my_data_model.sync_detailed(client=client)
+    ticker_options_volume: Response[TickerOptionsVolume] = getTickerOptionsVolume.sync(client=client,ticker="AAPL",date="2024-05-03")
+    for option_volume in ticker_options_volume:
+        print(option_volume.strike, option_volume.volume)
 ```
 
-Or do the same thing with an async version:
+## Async Support
+
+This library works with async await to handle non blocking i/o for better performance!
 
 ```python
-from unusual_whales_api_client.models import MyDataModel
-from unusual_whales_api_client.api.my_tag import get_my_data_model
-from unusual_whales_api_client.types import Response
+# same code as before but with async/await note that the function changes from sync_detailed to asyncio_detailed
+# alternatively you can use sync and asyncio
+from unusualwhales.client import AuthenticatedClient
 
 async with client as client:
-    my_data: MyDataModel = await get_my_data_model.asyncio(client=client)
-    response: Response[MyDataModel] = await get_my_data_model.asyncio_detailed(client=client)
-```
-
-By default, when you're calling an HTTPS API it will attempt to verify that SSL is working correctly. Using certificate verification is highly recommended most of the time, but sometimes you may need to authenticate to a server (especially an internal server) using a custom certificate bundle.
-
-```python
-client = AuthenticatedClient(
-    base_url="https://internal_api.example.com", 
-    token="SuperSecretToken",
-    verify_ssl="/path/to/certificate_bundle.pem",
-)
-```
-
-You can also disable certificate validation altogether, but beware that **this is a security risk**.
-
-```python
-client = AuthenticatedClient(
-    base_url="https://internal_api.example.com", 
-    token="SuperSecretToken", 
-    verify_ssl=False
-)
+    ticker_options_volume: TickerOptionsVolume = await getTickerOptionsVolume.asyncio(client=client,ticker="AAPL",date="2024-05-03")
+    for option_volume in ticker_options_volume:
+        print(option_volume.strike, option_volume.volume)
 ```
 
 Things to know:
@@ -71,8 +74,6 @@ Things to know:
     1. `asyncio_detailed`: Like `sync_detailed` but async instead of blocking
 
 1. All path/query params, and bodies become method arguments.
-1. If your endpoint had any tags on it, the first tag will be used as a module name for the function (my_tag above)
-1. Any endpoint which did not have a tag will be in `unusual_whales_api_client.api.default`
 
 ## Advanced customizations
 
@@ -89,36 +90,7 @@ def log_response(response):
     print(f"Response event hook: {request.method} {request.url} - Status {response.status_code}")
 
 client = Client(
-    base_url="https://api.example.com",
+    base_url="https://api.unusualwhales.com",
     httpx_args={"event_hooks": {"request": [log_request], "response": [log_response]}},
 )
-
-# Or get the underlying httpx client to modify directly with client.get_httpx_client() or client.get_async_httpx_client()
 ```
-
-You can even set the httpx client directly, but beware that this will override any existing settings (e.g., base_url):
-
-```python
-import httpx
-from unusual_whales_api_client import Client
-
-client = Client(
-    base_url="https://api.unusualwhales.com",
-)
-# Note that base_url needs to be re-set, as would any shared cookies, headers, etc.
-client.set_httpx_client(httpx.Client(base_url="https://api.unusualwhales.com", proxies="http://localhost:8030"))
-```
-
-## Building / publishing this package
-This project uses [Poetry](https://python-poetry.org/) to manage dependencies  and packaging.  Here are the basics:
-1. Update the metadata in pyproject.toml (e.g. authors, version)
-1. If you're using a private repository, configure it with Poetry
-    1. `poetry config repositories.<your-repository-name> <url-to-your-repository>`
-    1. `poetry config http-basic.<your-repository-name> <username> <password>`
-1. Publish the client with `poetry publish --build -r <your-repository-name>` or, if for public PyPI, just `poetry publish --build`
-
-If you want to install this client into another project without publishing it (e.g. for development) then:
-1. If that project **is using Poetry**, you can simply do `poetry add <path-to-this-client>` from that project
-1. If that project is not using Poetry:
-    1. Build a wheel with `poetry build -f wheel`
-    1. Install that wheel from the other project `pip install <path-to-wheel>`
