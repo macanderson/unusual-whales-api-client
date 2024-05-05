@@ -11,23 +11,14 @@ T = TypeVar("T", bound="Holdings")
 
 @_attrs_define
 class Holdings:
-    """
+    """An object containing information about the holdings of an ETF
+
     Example:
-        {'data': [{'avg30_volume': '52433648', 'bearish_premium': '32565174', 'bullish_premium': '22987045',
-            'call_premium': '45254976', 'call_volume': 197685, 'close': '194.84', 'has_options': True, 'high': '196.579',
-            'low': '194.41', 'name': 'APPLE INC', 'prev_price': '197.14', 'put_premium': '16338631', 'put_volume': 106773,
-            'sector': 'Technology', 'shares': 169938760, 'short_name': 'APPLE', 'ticker': 'AAPL', 'type': 'stock', 'volume':
-            12314310, 'week52_high': '199.62', 'week52_low': '123.15', 'weight': '7.335'}, {'avg30_volume': '30239291',
-            'bearish_premium': '14318236', 'bullish_premium': '14142305', 'call_premium': '22499010', 'call_volume': 48302,
-            'close': '371.0', 'has_options': True, 'high': '371.0', 'low': '368.73', 'name': 'MICROSOFT CORP', 'prev_price':
-            '369.36', 'put_premium': '8688334', 'put_volume': 35055, 'sector': 'Technology', 'shares': 85913823,
-            'short_name': 'MICROSOFT', 'ticker': 'MSFT', 'type': 'stock', 'volume': 3760724, 'week52_high': '384.3',
-            'week52_low': '216.98', 'weight': '6.959'}, {'avg30_volume': '51068229', 'bearish_premium': '27305757',
-            'bullish_premium': '37477652', 'call_premium': '68914858', 'call_volume': 243442, 'close': '152.82',
-            'has_options': True, 'high': '152.9', 'low': '150.09', 'name': 'AMAZON.COM INC', 'prev_price': '149.6',
-            'put_premium': '15242490', 'put_volume': 86301, 'sector': 'Consumer Cyclical', 'shares': 104991822,
-            'short_name': 'AMAZON', 'ticker': 'AMZN', 'type': 'stock', 'volume': 11285233, 'week52_high': '150.57',
-            'week52_low': '81.43', 'weight': '3.44'}]}
+        {'avg30_volume': '52433648', 'bearish_premium': '32565174', 'bullish_premium': '22987045', 'call_premium':
+            '45254976', 'call_volume': 197685, 'close': '194.84', 'has_options': True, 'high': '196.579', 'low': '194.41',
+            'name': 'APPLE INC', 'prev_price': '197.14', 'put_premium': '16338631', 'put_volume': 106773, 'sector':
+            'Technology', 'shares': 169938760, 'short_name': 'APPLE', 'ticker': 'AAPL', 'type': 'stock', 'volume': 12314310,
+            'week52_high': '199.62', 'week52_low': '123.15', 'weight': '7.335'}
 
     Attributes:
         avg30_volume (Union[Unset, str]): The avg stock volume for the stock last 30 days. Example: 55973002.

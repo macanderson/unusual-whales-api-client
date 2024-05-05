@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.oi_change import OIChange
+from ...models.oi_change_results import OIChangeResults
 from ...models.order_direction import OrderDirection
 from ...types import UNSET, Response, Unset
 
@@ -41,12 +41,14 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[OIChange]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[OIChangeResults]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = OIChange.from_dict(response.json())
+        response_200 = OIChangeResults.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -55,7 +57,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[OIChange]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[OIChangeResults]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,7 +75,7 @@ def sync_detailed(
     date: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, OrderDirection] = UNSET,
-) -> Response[OIChange]:
+) -> Response[OIChangeResults]:
     """OI Change
 
      Returns the tickers contracts' OI change data ordered by absolute OI change (default: descending).
@@ -93,7 +97,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OIChange]
+        Response[OIChangeResults]
     """
 
     kwargs = _get_kwargs(
@@ -117,7 +121,7 @@ def sync(
     date: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, OrderDirection] = UNSET,
-) -> Optional[OIChange]:
+) -> Optional[OIChangeResults]:
     """OI Change
 
      Returns the tickers contracts' OI change data ordered by absolute OI change (default: descending).
@@ -139,7 +143,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OIChange
+        OIChangeResults
     """
 
     return sync_detailed(
@@ -158,7 +162,7 @@ async def asyncio_detailed(
     date: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, OrderDirection] = UNSET,
-) -> Response[OIChange]:
+) -> Response[OIChangeResults]:
     """OI Change
 
      Returns the tickers contracts' OI change data ordered by absolute OI change (default: descending).
@@ -180,7 +184,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OIChange]
+        Response[OIChangeResults]
     """
 
     kwargs = _get_kwargs(
@@ -202,7 +206,7 @@ async def asyncio(
     date: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, OrderDirection] = UNSET,
-) -> Optional[OIChange]:
+) -> Optional[OIChangeResults]:
     """OI Change
 
      Returns the tickers contracts' OI change data ordered by absolute OI change (default: descending).
@@ -224,7 +228,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OIChange
+        OIChangeResults
     """
 
     return (

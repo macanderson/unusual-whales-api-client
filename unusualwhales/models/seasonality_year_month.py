@@ -10,11 +10,9 @@ T = TypeVar("T", bound="SeasonalityYearMonth")
 
 @_attrs_define
 class SeasonalityYearMonth:
-    """The price change for the ticker in the month in the year.
-
+    """
     Example:
-        {'data': [{'change': '-0.0469', 'close': 315.75, 'month': 9, 'open': 331.31, 'year': 2023}, {'change': '0.0690',
-            'close': 338.11, 'month': 10, 'open': 316.28, 'year': 2023}]}
+        {'change': '-0.0469', 'close': 315.75, 'month': 9, 'open': 331.31, 'year': 2023}
 
     Attributes:
         change (Union[Unset, float]): The relative price change for the month. Example: 0.09494354167379757.

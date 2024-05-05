@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.option_contract_screener_response import OptionContractScreenerResponse
+from ...models.option_chain_contract_results import OptionChainContractResults
 from ...types import UNSET, Response
 
 
@@ -33,12 +33,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+) -> Optional[Union[ErrorMessage, OptionChainContractResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = OptionContractScreenerResponse.from_dict(response.json())
+        response_200 = OptionChainContractResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -56,7 +56,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+) -> Response[Union[ErrorMessage, OptionChainContractResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,7 +70,7 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     expirations: str,
-) -> Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+) -> Response[Union[ErrorMessage, OptionChainContractResults, str]]:
     """ATM option contracts for the given expiries
 
      Returns the ATM option contracts for the given expirations
@@ -84,7 +84,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]
+        Response[Union[ErrorMessage, OptionChainContractResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -104,7 +104,7 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     expirations: str,
-) -> Optional[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+) -> Optional[Union[ErrorMessage, OptionChainContractResults, str]]:
     """ATM option contracts for the given expiries
 
      Returns the ATM option contracts for the given expirations
@@ -118,7 +118,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, OptionContractScreenerResponse, str]
+        Union[ErrorMessage, OptionChainContractResults, str]
     """
 
     return sync_detailed(
@@ -133,7 +133,7 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     expirations: str,
-) -> Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+) -> Response[Union[ErrorMessage, OptionChainContractResults, str]]:
     """ATM option contracts for the given expiries
 
      Returns the ATM option contracts for the given expirations
@@ -147,7 +147,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]
+        Response[Union[ErrorMessage, OptionChainContractResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -165,7 +165,7 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     expirations: str,
-) -> Optional[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+) -> Optional[Union[ErrorMessage, OptionChainContractResults, str]]:
     """ATM option contracts for the given expiries
 
      Returns the ATM option contracts for the given expirations
@@ -179,7 +179,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, OptionContractScreenerResponse, str]
+        Union[ErrorMessage, OptionChainContractResults, str]
     """
 
     return (

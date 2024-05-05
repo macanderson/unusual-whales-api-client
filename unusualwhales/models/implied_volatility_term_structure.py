@@ -12,10 +12,8 @@ T = TypeVar("T", bound="ImpliedVolatilityTermStructure")
 class ImpliedVolatilityTermStructure:
     """
     Example:
-        {'data': [{'date': datetime.date(2023, 9, 8), 'dte': 0, 'expiry': datetime.date(2023, 9, 8), 'implied_move':
-            '3.1025', 'implied_move_perc': '0.01765', 'volatility': '0.2319'}, {'date': datetime.date(2023, 9, 8), 'dte': 7,
-            'expiry': datetime.date(2023, 9, 15), 'implied_move': '4.923', 'implied_move_perc': '0.02747', 'volatility':
-            '0.2352'}]}
+        {'data': {'date': datetime.date(2023, 9, 8), 'dte': 7, 'expiry': datetime.date(2023, 9, 15), 'implied_move':
+            '4.923', 'implied_move_perc': '0.02747', 'volatility': '0.2352'}}
 
     Attributes:
         date (Union[Unset, str]): A trading date in ISO format YYYY-MM-DD Example: 2023-09-08.

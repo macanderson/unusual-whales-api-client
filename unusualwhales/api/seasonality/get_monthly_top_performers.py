@@ -8,7 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
 from ...models.order_direction import OrderDirection
 from ...models.seasonality_performance_order_by import SeasonalityPerformanceOrderBy
-from ...models.seasonality_performers import SeasonalityPerformers
+from ...models.seasonality_performers_results import SeasonalityPerformersResults
 from ...models.single_month_number import SingleMonthNumber
 from ...types import UNSET, Response, Unset
 
@@ -62,12 +62,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorMessage, SeasonalityPerformers, str]]:
+) -> Optional[Union[ErrorMessage, SeasonalityPerformersResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = SeasonalityPerformers.from_dict(response.json())
+        response_200 = SeasonalityPerformersResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -85,7 +85,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorMessage, SeasonalityPerformers, str]]:
+) -> Response[Union[ErrorMessage, SeasonalityPerformersResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -105,7 +105,7 @@ def sync_detailed(
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, SeasonalityPerformanceOrderBy] = UNSET,
     order_direction: Union[Unset, OrderDirection] = UNSET,
-) -> Response[Union[ErrorMessage, SeasonalityPerformers, str]]:
+) -> Response[Union[ErrorMessage, SeasonalityPerformersResults, str]]:
     """Get Top Performers for a Month
 
      Returns the tickers with the highest performance in terms of price change in the month over the
@@ -135,7 +135,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, SeasonalityPerformers, str]]
+        Response[Union[ErrorMessage, SeasonalityPerformersResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -167,7 +167,7 @@ def sync(
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, SeasonalityPerformanceOrderBy] = UNSET,
     order_direction: Union[Unset, OrderDirection] = UNSET,
-) -> Optional[Union[ErrorMessage, SeasonalityPerformers, str]]:
+) -> Optional[Union[ErrorMessage, SeasonalityPerformersResults, str]]:
     """Get Top Performers for a Month
 
      Returns the tickers with the highest performance in terms of price change in the month over the
@@ -197,7 +197,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, SeasonalityPerformers, str]
+        Union[ErrorMessage, SeasonalityPerformersResults, str]
     """
 
     return sync_detailed(
@@ -224,7 +224,7 @@ async def asyncio_detailed(
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, SeasonalityPerformanceOrderBy] = UNSET,
     order_direction: Union[Unset, OrderDirection] = UNSET,
-) -> Response[Union[ErrorMessage, SeasonalityPerformers, str]]:
+) -> Response[Union[ErrorMessage, SeasonalityPerformersResults, str]]:
     """Get Top Performers for a Month
 
      Returns the tickers with the highest performance in terms of price change in the month over the
@@ -254,7 +254,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, SeasonalityPerformers, str]]
+        Response[Union[ErrorMessage, SeasonalityPerformersResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -284,7 +284,7 @@ async def asyncio(
     limit: Union[Unset, int] = UNSET,
     order: Union[Unset, SeasonalityPerformanceOrderBy] = UNSET,
     order_direction: Union[Unset, OrderDirection] = UNSET,
-) -> Optional[Union[ErrorMessage, SeasonalityPerformers, str]]:
+) -> Optional[Union[ErrorMessage, SeasonalityPerformersResults, str]]:
     """Get Top Performers for a Month
 
      Returns the tickers with the highest performance in terms of price change in the month over the
@@ -314,7 +314,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, SeasonalityPerformers, str]
+        Union[ErrorMessage, SeasonalityPerformersResults, str]
     """
 
     return (

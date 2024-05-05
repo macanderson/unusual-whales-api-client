@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.implied_volatility_term_structure import ImpliedVolatilityTermStructure
+from ...models.implied_volatility_term_structure_results import ImpliedVolatilityTermStructureResults
 from ...types import UNSET, Response, Unset
 
 
@@ -33,12 +33,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]:
+) -> Optional[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = ImpliedVolatilityTermStructure.from_dict(response.json())
+        response_200 = ImpliedVolatilityTermStructureResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -56,7 +56,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]:
+) -> Response[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,7 +70,7 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Response[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]:
+) -> Response[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]:
     """Implied Volatility Term Structure
 
      The average of the latest volatilities for the at the money call and put contracts for every expiry
@@ -87,7 +87,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]
+        Response[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -107,7 +107,7 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Optional[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]:
+) -> Optional[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]:
     """Implied Volatility Term Structure
 
      The average of the latest volatilities for the at the money call and put contracts for every expiry
@@ -124,7 +124,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ImpliedVolatilityTermStructure, str]
+        Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]
     """
 
     return sync_detailed(
@@ -139,7 +139,7 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Response[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]:
+) -> Response[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]:
     """Implied Volatility Term Structure
 
      The average of the latest volatilities for the at the money call and put contracts for every expiry
@@ -156,7 +156,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]
+        Response[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -174,7 +174,7 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Optional[Union[ErrorMessage, ImpliedVolatilityTermStructure, str]]:
+) -> Optional[Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]]:
     """Implied Volatility Term Structure
 
      The average of the latest volatilities for the at the money call and put contracts for every expiry
@@ -191,7 +191,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ImpliedVolatilityTermStructure, str]
+        Union[ErrorMessage, ImpliedVolatilityTermStructureResults, str]
     """
 
     return (

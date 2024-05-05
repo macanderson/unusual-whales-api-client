@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.greek_exposure_by_strike import GreekExposureByStrike
+from ...models.greek_exposure_by_strike_results import GreekExposureByStrikeResults
 from ...types import UNSET, Response, Unset
 
 
@@ -33,12 +33,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorMessage, GreekExposureByStrike, str]]:
+) -> Optional[Union[ErrorMessage, GreekExposureByStrikeResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = GreekExposureByStrike.from_dict(response.json())
+        response_200 = GreekExposureByStrikeResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -56,7 +56,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorMessage, GreekExposureByStrike, str]]:
+) -> Response[Union[ErrorMessage, GreekExposureByStrikeResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,7 +70,7 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Response[Union[ErrorMessage, GreekExposureByStrike, str]]:
+) -> Response[Union[ErrorMessage, GreekExposureByStrikeResults, str]]:
     """Greek Exposure Grouped By Expiry All Strikes
 
      The greek exposure of a ticker grouped by expiry dates across all contracts on a given market date.
@@ -86,7 +86,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, GreekExposureByStrike, str]]
+        Response[Union[ErrorMessage, GreekExposureByStrikeResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -106,7 +106,7 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Optional[Union[ErrorMessage, GreekExposureByStrike, str]]:
+) -> Optional[Union[ErrorMessage, GreekExposureByStrikeResults, str]]:
     """Greek Exposure Grouped By Expiry All Strikes
 
      The greek exposure of a ticker grouped by expiry dates across all contracts on a given market date.
@@ -122,7 +122,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, GreekExposureByStrike, str]
+        Union[ErrorMessage, GreekExposureByStrikeResults, str]
     """
 
     return sync_detailed(
@@ -137,7 +137,7 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Response[Union[ErrorMessage, GreekExposureByStrike, str]]:
+) -> Response[Union[ErrorMessage, GreekExposureByStrikeResults, str]]:
     """Greek Exposure Grouped By Expiry All Strikes
 
      The greek exposure of a ticker grouped by expiry dates across all contracts on a given market date.
@@ -153,7 +153,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, GreekExposureByStrike, str]]
+        Response[Union[ErrorMessage, GreekExposureByStrikeResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -171,7 +171,7 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-) -> Optional[Union[ErrorMessage, GreekExposureByStrike, str]]:
+) -> Optional[Union[ErrorMessage, GreekExposureByStrikeResults, str]]:
     """Greek Exposure Grouped By Expiry All Strikes
 
      The greek exposure of a ticker grouped by expiry dates across all contracts on a given market date.
@@ -187,7 +187,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, GreekExposureByStrike, str]
+        Union[ErrorMessage, GreekExposureByStrikeResults, str]
     """
 
     return (

@@ -69,6 +69,16 @@ components:
       example: China news could create demand headwind for Apple in Dec. quarter, says UBS
       title: Analyst Field Title
       type: string
+    Analyst Rating Results:
+      title: Analalyst Rating Results
+      type: object
+      description: An object with a property named data containing an array of AnalystRating objects.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Analyst Rating'
+          maxItems: 1000000
     Analyst Rating:
       description: A rating of an analyst.
       example:
@@ -194,7 +204,15 @@ components:
       example: 10699
       title: Candle Volume
       type: integer
-    Candle data:
+    Candle Data Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Candle Data'
+    Candle Data:
       description: The candle data for the requested timeframe.
       example:
         data:
@@ -307,6 +325,16 @@ components:
       example: 5
       title: DTE
       type: integer
+    Daily Market Tide Results:
+      description: contains an array of Daily Market Tide objects in a property named data
+      type: object
+      title: Daily Market Tide Response
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Daily Market Tide'
     Daily Market Tide:
       description: ''
       example:
@@ -340,41 +368,22 @@ components:
     Darkpool Trade:
       description: A darkpool trade.
       example:
-        data:
-          - canceled: false
-            executed_at: 2023-02-16T00:59:44Z
-            ext_hour_sold_codes: extended_hours_trade
-            market_center: L
-            nbbo_ask: '19'
-            nbbo_ask_quantity: 6600
-            nbbo_bid: '18.99'
-            nbbo_bid_quantity: 29100
-            premium: '121538.56'
-            price: '18.9904'
-            sale_cond_codes:
-            size: 6400
-            ticker: QID
-            tracking_id: 71984388012245
-            trade_code:
-            trade_settlement: regular_settlement
-            volume: 9946819
-          - canceled: false
-            executed_at: 2023-02-16T00:59:44Z
-            ext_hour_sold_codes: extended_hours_trade
-            market_center: L
-            nbbo_ask: '19'
-            nbbo_ask_quantity: 6600
-            nbbo_bid: '18.99'
-            nbbo_bid_quantity: 29100
-            premium: '353214'
-            price: '18.99'
-            sale_cond_codes:
-            size: 18600
-            ticker: QID
-            tracking_id: 71984384768588
-            trade_code:
-            trade_settlement: regular_settlement
-            volume: 9940419
+        executed_at: 2023-02-16T00:59:44Z
+        ext_hour_sold_codes: extended_hours_trade
+        market_center: L
+        nbbo_ask: '19'
+        nbbo_ask_quantity: 6600
+        nbbo_bid: '18.99'
+        nbbo_bid_quantity: 29100
+        premium: '121538.56'
+        price: '18.9904'
+        sale_cond_codes:
+        size: 6400
+        ticker: QID
+        tracking_id: 71984388012245
+        trade_code:
+        trade_settlement: regular_settlement
+        volume: 9946819
       properties:
         canceled:
           $ref: '#/components/schemas/Single Trade Is Trade Cancelled'
@@ -412,6 +421,50 @@ components:
           $ref: '#/components/schemas/Stock Day Stock Volume'
       title: Darkpool Trade
       type: object
+    Darkpool Trade Results:
+      description: The response of the darkpool trades endpoint. Contains a property named data that contains an array of DarkpoolTrade objects
+      example:
+        data:
+          - executed_at: 2023-02-16T00:59:44Z
+            ext_hour_sold_codes: extended_hours_trade
+            market_center: L
+            nbbo_ask: '19'
+            nbbo_ask_quantity: 6600
+            nbbo_bid: '18.99'
+            nbbo_bid_quantity: 29100
+            premium: '121538.56'
+            price: '18.9904'
+            sale_cond_codes:
+            size: 6400
+            ticker: QID
+            tracking_id: 71984388012245
+            trade_code:
+            trade_settlement: regular_settlement
+            volume: 9946819
+          - executed_at: 2023-02-16T00:59:44Z
+            ext_hour_sold_codes: extended_hours_trade
+            market_center: L
+            nbbo_ask: '19'
+            nbbo_ask_quantity: 6600
+            nbbo_bid: '18.99'
+            nbbo_bid_quantity: 29100
+            premium: '121538.56'
+            price: '18.9904'
+            sale_cond_codes:
+            size: 6400
+            ticker: QID
+            tracking_id: 71984388012245
+            trade_code:
+            trade_settlement: regular_settlement
+            volume: 9946819
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Darkpool Trade'
+      title: Darkpool Trade Response
     Delta:
       description: |
         A delta of either 10 or 25.
@@ -1051,7 +1104,15 @@ components:
       minimum: 0
       title: DynLimitAzypbfzepbq
       type: integer
-    Earning:
+    Earnings Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Earnings'
+    Earnings:
       description: |
         Earnings information for a ticker and date.
       example:
@@ -1135,7 +1196,7 @@ components:
           $ref: '#/components/schemas/General Tick Price'
         symbol:
           $ref: '#/components/schemas/General Tick Price'
-      title: Earning
+      title: Earnings
       type: object
     Economic Event:
       description: The event/reason. Can be a fed speaker or an economic report/indicator
@@ -1276,6 +1337,7 @@ components:
         type: object
       title: Etf Countries
       type: array
+      maxItems: 100
     Etf Description:
       description: Information about the ETF.
       example: The Trust seeks to achieve its investment objective by holding a portfolio of the common stocks that are included in the index (the “Portfolio”), with the weight of each stock in the Portfolio substantially corresponding to the weight of such stock in the index.
@@ -1307,7 +1369,7 @@ components:
       title: Etf Inception Date
       type: string
     Etf Info:
-      description: ''
+      description: Returns information about the ETF.
       example:
         data:
           aum: '428887833900'
@@ -1326,34 +1388,38 @@ components:
           stock_vol: 4348819
           website: https://www.ssga.com/us/en/institutional/etfs/funds/spdr-sp-500-etf-trust-spy
       properties:
-        aum:
-          $ref: '#/components/schemas/Etf AUM'
-        avg30_volume:
-          $ref: '#/components/schemas/Stock Average 30 Day Volume'
-        call_vol:
-          $ref: '#/components/schemas/Market General Call Volume'
-        description:
-          $ref: '#/components/schemas/Etf Description'
-        domicile:
-          $ref: '#/components/schemas/Etf Domicile'
-        etf_company:
-          $ref: '#/components/schemas/Etf Company'
-        expense_ratio:
-          $ref: '#/components/schemas/Etf Expense Ratio'
-        has_options:
-          $ref: '#/components/schemas/Stock Has Options'
-        holdings_count:
-          $ref: '#/components/schemas/Etf Holdings Count'
-        inception_date:
-          $ref: '#/components/schemas/Etf Inception Date'
-        name:
-          $ref: '#/components/schemas/Etf Full Name'
-        opt_vol:
-          $ref: '#/components/schemas/Etf Total Volume'
-        put_vol:
-          $ref: '#/components/schemas/Market General Put Volume'
-        stock_vol:
-          $ref: '#/components/schemas/Stock Day Stock Volume'
+        data:
+          type: object
+          description: The data of the ETF.
+          properties:
+            aum:
+              $ref: '#/components/schemas/Etf AUM'
+            avg30_volume:
+              $ref: '#/components/schemas/Stock Average 30 Day Volume'
+            call_vol:
+              $ref: '#/components/schemas/Market General Call Volume'
+            description:
+              $ref: '#/components/schemas/Etf Description'
+            domicile:
+              $ref: '#/components/schemas/Etf Domicile'
+            etf_company:
+              $ref: '#/components/schemas/Etf Company'
+            expense_ratio:
+              $ref: '#/components/schemas/Etf Expense Ratio'
+            has_options:
+              $ref: '#/components/schemas/Stock Has Options'
+            holdings_count:
+              $ref: '#/components/schemas/Etf Holdings Count'
+            inception_date:
+              $ref: '#/components/schemas/Etf Inception Date'
+            name:
+              $ref: '#/components/schemas/Etf Full Name'
+            opt_vol:
+              $ref: '#/components/schemas/Etf Total Volume'
+            put_vol:
+              $ref: '#/components/schemas/Market General Put Volume'
+            stock_vol:
+              $ref: '#/components/schemas/Stock Day Stock Volume'
         website:
           $ref: '#/components/schemas/Etf Website Url'
       title: Etf Info
@@ -1376,6 +1442,9 @@ components:
             "weight": "0.0861"
           }
         ]
+            title: Etf Sectors
+      type: array
+      maxItems: 100
       items:
         description: A sector and it's corresponding exposure in percentage.
         example: |
@@ -1393,8 +1462,6 @@ components:
             example: '0.1272'
             type: string
         type: object
-      title: Etf Sectors
-      type: array
     Etf Total Volume:
       description: The total options volume traded for the last Trading Day.
       example: 533227
@@ -1410,7 +1477,17 @@ components:
       example: 2022-05-30
       title: Expiry
       type: string
-    Expiry breakdown:
+    Expiry Breakdown Results:
+      title: Expiry Breakdown Result
+      description: Response returning an object with a nested array of ExpiryBreakdown objects with a key of data
+      type: object
+      properties:
+          data:
+            type: array
+            maxItems: 100000
+            items:
+              $ref: '#/components/schemas/Expiry Breakdown'
+    Expiry Breakdown:
       description: All expirations for a ticker
       example:
         data:
@@ -1527,6 +1604,14 @@ components:
           $ref: '#/components/schemas/FDA Calendar Ticker'
       title: Fda calendar
       type: object
+    Flow Alert Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Flow Alert'
     Flow Alert:
       description: |
         Representation of a flow alert.
@@ -1620,6 +1705,14 @@ components:
       example: RepeatedHits
       title: Flow alert rule
       type: string
+    Flow Per Expiry Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Flow per expiry'
     Flow per expiry:
       description: |
         The flow data per expiry for a Trading Day.
@@ -1721,6 +1814,14 @@ components:
           $ref: '#/components/schemas/Stock Ticker'
       title: Flow per expiry
       type: object
+    Flow Per Strike Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Flow per strike'
     Flow per strike:
       description: |
         The flow data per strike for a Trading Day.
@@ -1948,6 +2049,14 @@ components:
       example: '-5559678859.12'
       title: Gex Vanna Per One Percent Move Volume
       type: string
+    Greek Exposure Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Greek Exposure'
     Greek Exposure:
       description: ''
       example:
@@ -1991,6 +2100,14 @@ components:
           $ref: '#/components/schemas/Gex Put Vanna'
       title: Greek Exposure
       type: object
+    Greek Exposure By Strike Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Greek Exposure By Strike'
     Greek Exposure By Strike:
       description: ''
       example:
@@ -2034,6 +2151,14 @@ components:
           $ref: '#/components/schemas/Strike'
       title: Greek Exposure By Strike
       type: object
+    Greek Exposure By Strike and Expiry Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Greek Exposure By Strike And Expiry'
     Greek Exposure By Strike And Expiry:
       description: ''
       example:
@@ -2169,6 +2294,14 @@ components:
           $ref: '#/components/schemas/Stock Ticker'
       title: Greeks
       type: object
+    Historical Risk Reversal Skew Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Historical Risk Reversal Skew'
     Historical Risk Reversal Skew:
       description: ''
       example:
@@ -2188,76 +2321,40 @@ components:
           $ref: '#/components/schemas/Stock Ticker'
       title: Historical Risk Reversal Skew
       type: object
-    Holdings:
-      description: ''
-      example:
+    Holdings Results:
+      title: Holdings Response
+      type: object
+      description: An object with a property named data containing an array of Holdings objects
+      properties:
         data:
-          - avg30_volume: '52433648'
-            bearish_premium: '32565174'
-            bullish_premium: '22987045'
-            call_premium: '45254976'
-            call_volume: 197685
-            close: '194.84'
-            has_options: true
-            high: '196.579'
-            low: '194.41'
-            name: APPLE INC
-            prev_price: '197.14'
-            put_premium: '16338631'
-            put_volume: 106773
-            sector: Technology
-            shares: 169938760
-            short_name: APPLE
-            ticker: AAPL
-            type: stock
-            volume: 12314310
-            week52_high: '199.62'
-            week52_low: '123.15'
-            weight: '7.335'
-          - avg30_volume: '30239291'
-            bearish_premium: '14318236'
-            bullish_premium: '14142305'
-            call_premium: '22499010'
-            call_volume: 48302
-            close: '371.0'
-            has_options: true
-            high: '371.0'
-            low: '368.73'
-            name: MICROSOFT CORP
-            prev_price: '369.36'
-            put_premium: '8688334'
-            put_volume: 35055
-            sector: Technology
-            shares: 85913823
-            short_name: MICROSOFT
-            ticker: MSFT
-            type: stock
-            volume: 3760724
-            week52_high: '384.3'
-            week52_low: '216.98'
-            weight: '6.959'
-          - avg30_volume: '51068229'
-            bearish_premium: '27305757'
-            bullish_premium: '37477652'
-            call_premium: '68914858'
-            call_volume: 243442
-            close: '152.82'
-            has_options: true
-            high: '152.9'
-            low: '150.09'
-            name: AMAZON.COM INC
-            prev_price: '149.6'
-            put_premium: '15242490'
-            put_volume: 86301
-            sector: Consumer Cyclical
-            shares: 104991822
-            short_name: AMAZON 
-            ticker: AMZN
-            type: stock
-            volume: 11285233
-            week52_high: '150.57'
-            week52_low: '81.43'
-            weight: '3.44'
+          type: array
+          maxItems: 10000
+          $ref: '#/components/schemas/Holdings'
+    Holdings:
+      description: An object containing information about the holdings of an ETF
+      example:
+        avg30_volume: '52433648'
+        bearish_premium: '32565174'
+        bullish_premium: '22987045'
+        call_premium: '45254976'
+        call_volume: 197685
+        close: '194.84'
+        has_options: true
+        high: '196.579'
+        low: '194.41'
+        name: APPLE INC
+        prev_price: '197.14'
+        put_premium: '16338631'
+        put_volume: 106773
+        sector: Technology
+        shares: 169938760
+        short_name: APPLE
+        ticker: AAPL
+        type: stock
+        volume: 12314310
+        week52_high: '199.62'
+        week52_low: '123.15'
+        weight: '7.335'
       properties:
         avg30_volume:
           $ref: '#/components/schemas/Stock Average 30 Day Volume'
@@ -2335,22 +2432,24 @@ components:
       example: '0.30'
       title: Implied Volatility
       type: string
+    Implied Volatility Term Structure Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Implied Volatility Term Structure'
     Implied Volatility Term Structure:
       description: ''
       example:
         data:
-          - date: 2023-09-08
-            dte: 0
-            expiry: 2023-09-08
-            implied_move: '3.1025'
-            implied_move_perc: '0.01765'
-            volatility: '0.2319'
-          - date: 2023-09-08
-            dte: 7
-            expiry: 2023-09-15
-            implied_move: '4.923'
-            implied_move_perc: '0.02747'
-            volatility: '0.2352'
+          date: 2023-09-08
+          dte: 7
+          expiry: 2023-09-15
+          implied_move: '4.923'
+          implied_move_perc: '0.02747'
+          volatility: '0.2352'
       properties:
         date:
           $ref: '#/components/schemas/Market General Trading Day'
@@ -2440,8 +2539,23 @@ components:
       example: Sell
       title: Insider Trades Transaction Type
       type: string
-    Insider statistics:
-      description: ''
+    Insider Statistic:
+      type: object
+      description: An object containing data around an insider trade
+      title: Insider Statistic
+      properties:
+        filing_date:
+          $ref: '#/components/schemas/Insider Trades Filing Date'
+        purchases:
+          $ref: '#/components/schemas/Insider Trades Purchases'
+        purchases_notional:
+          $ref: '#/components/schemas/Insider Trades Notional Purchases'
+        sells:
+          $ref: '#/components/schemas/Insider Trades Sells'
+        sells_notional:
+          $ref: '#/components/schemas/Insider Trades Notional Sells'
+    Insider Statistics Results:
+      description: An objected containing a property named data that returns an array of InsiderStatistic objects
       example:
         data:
           - filing_date: 2023-12-13
@@ -2460,18 +2574,13 @@ components:
             sells: 210
             sells_notional: '-1058043617.3548'
       properties:
-        filing_date:
-          $ref: '#/components/schemas/Insider Trades Filing Date'
-        purchases:
-          $ref: '#/components/schemas/Insider Trades Purchases'
-        purchases_notional:
-          $ref: '#/components/schemas/Insider Trades Notional Purchases'
-        sells:
-          $ref: '#/components/schemas/Insider Trades Sells'
-        sells_notional:
-          $ref: '#/components/schemas/Insider Trades Notional Sells'
-      title: Insider statistics
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Insider Statistic'
+          maxItems: 100000
       type: object
+      title: Insider statistics
     Issue types:
       description: An array of 1 or more issue types.
       example:
@@ -2481,6 +2590,7 @@ components:
         $ref: '#/components/schemas/Single issue type'
       title: Issue types
       type: array
+      maxItems: 100
     Market General Avg 3 Day Call Volume:
       description: Avg 3 day call volume.
       example: '606258.533333333333'
@@ -2758,6 +2868,7 @@ components:
         type: string
       title: Market Holiday Dates
       type: array
+      maxItems: 200
     Market Holiday Early Close:
       description: Boolean flag indicating if the market is open and closes early on the given dates.
       example: true
@@ -2870,18 +2981,26 @@ components:
           $ref: '#/components/schemas/Market General Put Volume'
       title: Market Options Volume
       type: object
-    Market Sector Tickers:
-      description: List of tickers which are in the sector.
-      example:
+    Market Sector Ticker Results:
+      title: Market Sector Ticker Results
+      description: ''
+      type: object
+      properties:
         data:
-          - AMD
-          - INTC
-          - NVDA
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Market Sector Ticker'
+    Market Sector Ticker:
+      description: List of tickers which are in the sector.
+      example: AAPL
       title: Market Sector Tickers
-    Max Pain:
-        description: the strike with the highest premiums at stake for puts and calls
-        example:
-          data:
+      type: string
+    Max Pain Results:
+      title: Max Pain Results
+      type: object
+      examples:
+        data:
             - date: 2024-03-04
               values:
                 - - 2024-03-04
@@ -2894,13 +3013,31 @@ components:
                   - '472'
                 - - 2024-03-06
                   - '474'
+      description: Response object containing a property named data that contains a nested array of MaxPain objects
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Max Pain'
+    Max Pain:
+        description: the strike with the highest premiums at stake for puts and calls
+        example:
+            date: 2024-03-04
+            values:
+              - - 2024-03-04
+                - '473'
+              - - 2024-03-05
+                - '472'
         properties:
           date:
             $ref: '#/components/schemas/Market General Trading Day'
           values:
             type: array
+            maxItems: 100000
             items:
               type: array
+              maxItems: 100000
               items:
                 type: string                
             description: Max pain strike and expiry date
@@ -2919,8 +3056,7 @@ components:
       example: '0.03'
       title: NBBO Bid
       type: string
-    Net Prem Tick response.:
-      description: The net premium for each trading minute.
+    Net Prem Tick Results:
       example:
         data:
           - date: 2023-09-07
@@ -2965,12 +3101,15 @@ components:
             net_put_premium: '-1385094.0000'
             net_put_volume: -3197
             tape_time: 2023-09-07T09:36:00-04:00
-          - date: 2023-09-07
-            net_call_premium: '646507.0000'
-            net_call_volume: 565
-            net_put_premium: '-171857.0000'
-            net_put_volume: -351
-            tape_time: 2023-09-07T09:37:00-04:00
+      type: object
+      properties:
+        date:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Net Prem Tick'
+    Net Prem Tick:
+      description: The net premium for each trading minute.
       properties:
         net_call_premium:
           $ref: '#/components/schemas/Market General Net Call Premium'
@@ -2982,8 +3121,17 @@ components:
           $ref: '#/components/schemas/Market General Net Put Volume'
         tape_time:
           $ref: '#/components/schemas/General Tick time'
-      title: Net Prem Tick response.
+      title: Net Prem Tick
       type: object
+    OI Change Results:
+      title: OI Change Results
+      description: OI Change Results Response
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/OI Change'
     OI Change:
       description: |
         A list of option contracts with their OI change relative to the previous day.
@@ -3084,6 +3232,15 @@ components:
           $ref: '#/components/schemas/General Tick Price'
       title: OI Change
       type: object
+    Off Lit Price Level Results:
+      type: object
+      description: Object containing a property named data that holds an array off OffLitPriceLevel objects.
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Off Lit Price Level'
     Off Lit Price Level:
       description: ''
       example:
@@ -3103,7 +3260,7 @@ components:
           $ref: '#/components/schemas/Stock Price Level'
       title: Off Lit Price Level
       type: object
-    Option Chains response:
+    Option Chains Results:
       description: All option chains for a given ticker.
       example:
         data:
@@ -3124,8 +3281,13 @@ components:
           - AAPL230915C00192500
           - AAPL230915C00195000
           - AAPL230915C00200000
-      properties: {}
-      title: Option Chains response
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Option Contract Symbol'
+      title: Option Chains Results
       type: object
     Option Contract All Opening Trades:
       description: ''
@@ -3264,7 +3426,17 @@ components:
       example: 18680
       title: Option Contract Previous Open Interest
       type: integer
-    Option Contract Screener response.:
+    Option Contract Screener Results:
+      description: Object containing a property named data that holds an array off Option Contract Screener objects.
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Option Contract Screener Item'
+      title: Option Contract Screener Results
+      type: object
+    Option Contract Screener Item:
       description: ''
       example:
         data:
@@ -3353,7 +3525,7 @@ components:
           $ref: '#/components/schemas/Option Contract Total Trades Count'
         volume:
           $ref: '#/components/schemas/Option Contract Volume'
-      title: Option Contract Screener response.
+      title: Option Contract Screener Item
       type: object
     Option Contract Stock Multi Leg Volume:
       description: |
@@ -3412,6 +3584,16 @@ components:
       example: 264899
       title: Option Contract Volume
       type: integer
+    Option Price Level Results:
+      title: Option Price Level Results
+      type: object
+      description: Response object containing a property named data that contains a nested array of Option price level objects
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Option Price Level'
     Option Price Level:
       description: ''
       example:
@@ -3431,32 +3613,31 @@ components:
           $ref: '#/components/schemas/Market General Put Volume'
       title: Option Price Level
       type: object
-    Option contract :
+    Option Chain Contract:
       description: ''
       example:
-        chains:
-          - ask_volume: 1766
-            avg_price: '0.01360828625235404896'
-            bid_volume: 887
-            cross_volume: 0
-            date: 2023-05-26
-            floor_volume: 0
-            high_price: '0.03'
-            implied_volatility: '0.310502942482285'
-            iv_high: '0.675815680048166'
-            iv_low: '0.310502942482285'
-            last_price: '0.01'
-            last_tape_time: 2023-05-26T21:30:29.000000Z
-            low_price: '0.01'
-            mid_volume: 0
-            multi_leg_volume: 393
-            neutral_volume: 2
-            open_interest: 15907
-            stock_multi_leg_volume: 0
-            sweep_volume: 752
-            total_premium: '3613.00'
-            trades: 244
-            volume: 2655
+        ask_volume: 1766
+        avg_price: '0.01360828625235404896'
+        bid_volume: 887
+        cross_volume: 0
+        date: 2023-05-26
+        floor_volume: 0
+        high_price: '0.03'
+        implied_volatility: '0.310502942482285'
+        iv_high: '0.675815680048166'
+        iv_low: '0.310502942482285'
+        last_price: '0.01'
+        last_tape_time: 2023-05-26T21:30:29.000000Z
+        low_price: '0.01'
+        mid_volume: 0
+        multi_leg_volume: 393
+        neutral_volume: 2
+        open_interest: 15907
+        stock_multi_leg_volume: 0
+        sweep_volume: 752
+        total_premium: '3613.00'
+        trades: 244
+        volume: 2655
       properties:
         ask_volume:
           $ref: '#/components/schemas/Option Contract Ask Volume'
@@ -3502,10 +3683,22 @@ components:
           $ref: '#/components/schemas/Option Contract Total Trades Count'
         volume:
           $ref: '#/components/schemas/Option Contract Volume'
-      title: Option contract 
+      title: Option Chain Contract
       type: object
-    Option contracts:
-      description: All option contracts for a ticker
+    Option Chain Contract Results:
+      title: Option Chain Contract Results
+      type: object
+      description: Response object containing a property named data that contains a nested array of Option contract objects
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Option Chain Contract'
+    Option Contract:
+      title: Option Contract
+      type: object
+      description: All Option Chain Contracts for a Given Ticker
       example:
         data:
           - ask_volume: 56916
@@ -3591,12 +3784,20 @@ components:
           $ref: '#/components/schemas/Option Contract Premium'
         volume:
           $ref: '#/components/schemas/Option Contract Volume'
-      title: Option contracts
+    Option Contract Results:
+      title: Option Contract Results
+      description: Response object containing a property named data that contains a nested array of Option contract objects
       type: object
-    OptionContract:
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Option Contract'
+    OptionContractIsoName:
       description: An option contract in the ISO format.
       example: TSLA230526P00167500
-      title: OptionContract
+      title: OptionContractIsoName
       type: string
     OptionType:
       description: The option type to filter by if specified.
@@ -3631,6 +3832,7 @@ components:
         - RepeatedHitsAscendingFill
       items:
         $ref: '#/components/schemas/Flow alert rule'
+      maxItems: 10000
       title: Rule Name
       type: array
     SPIKE value:
@@ -3739,6 +3941,17 @@ components:
       example: '182.91'
       title: Seasonality Close Price
       type: string
+    Seasonality Market Results:
+      title: Seasonality Market Results
+      description: |
+        The price change for the ticker over the given count of years.
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Seasonality Market'
     Seasonality Market:
       description: |
         The price change for the ticker over the given count of years.
@@ -3803,9 +4016,9 @@ components:
       example: 5
       title: Seasonality Month Number
       type: integer
-    Seasonality Monthly:
+    Seasonality Monthly Results:
       description: |
-        The price change for the ticker in the month over the given count of years.
+        Object containing a property named data that holds an array of Seasonality Monthly objects.
       example:
         data:
           - avg_change: 0.0034
@@ -3824,6 +4037,25 @@ components:
             positive_closes: 1
             positive_months_perc: 0.5
             years: 2
+      title: Seasonality Monthly Results
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Seasonality Monthly'
+          type: array
+          maxItems: 100000
+    Seasonality Monthly:
+      description: |
+        The price change for the ticker in the month over the given count of years.
+      example:
+        avg_change: 0.0034
+        max_change: 0.0635
+        median_change: 0.0195
+        min_change: -0.0727
+        month: 1
+        positive_closes: 2
+        positive_months_perc: 0.6667
+        years: 3
       properties:
         avg_change:
           $ref: '#/components/schemas/Seasonality Average Change'
@@ -3863,6 +4095,41 @@ components:
       example: ticker
       title: Seasonality Performance Order By
       type: string
+    Seasonality Performers Results:
+      title: Seasonality Performers Results
+      description: |
+        Object containing a property named data that holds an array of Seasonality Performers objects.
+      example:
+        data:
+          - avg_change: 0.0592
+            marketcap: 19427901578
+            max_change: 0.1104
+            median_change: 0.0639
+            min_change: 0.0091
+            month: 5
+            positive_closes: 11
+            positive_months_perc: '1.1'
+            sector: Healthcare
+            ticker: ICLR
+            years: 10
+          - avg_change: 0.0577
+            marketcap: 1927713687
+            max_change: 0.2301
+            median_change: 0.0417
+            min_change: -0.2485
+            month: 5
+            positive_closes: 10
+            positive_months_perc: '1'
+            sector: Technology
+            ticker: AMBA
+            years: 10
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Seasonality Performers'
     Seasonality Performers:
       description: |
         The price change for the ticker over the given count of years.
@@ -3935,7 +4202,7 @@ components:
       example: 3
       title: Seasonality Year Count
       type: number
-    Seasonality Year Month:
+    Seasonality Year Month Results:
       description: |
         The price change for the ticker in the month in the year.
       example:
@@ -3961,6 +4228,26 @@ components:
           $ref: '#/components/schemas/Seasonality Open Price'
         year:
           $ref: '#/components/schemas/Seasonality Year'
+      title: Seasonality Year Month Results
+      type: object
+    Seasonality Year Month:
+      example:
+        change: '-0.0469'
+        close: 315.75
+        month: 9
+        open: 331.31
+        year: 2023
+      properties:
+          change:
+            $ref: '#/components/schemas/Seasonality Change'
+          close:
+            $ref: '#/components/schemas/Seasonality Close Price'
+          month:
+            $ref: '#/components/schemas/Seasonality Month Number'
+          open:
+            $ref: '#/components/schemas/Seasonality Open Price'
+          year:
+            $ref: '#/components/schemas/Seasonality Year'
       title: Seasonality Year Month
       type: object
     Sector:
@@ -3981,34 +4268,32 @@ components:
       title: Sector
       type: string
     Sector ETF:
-      description: ''
       example:
-        data:
-          - avg30_call_volume: '3636459.000000000000'
-            avg30_put_volume: '4796289.166666666667'
-            avg30_stock_volume: '74402355'
-            avg_30_day_call_volume: '3636459.000000000000'
-            avg_30_day_put_volume: '4796289.166666666667'
-            avg_7_day_call_volume: '3343061.285714285714'
-            avg_7_day_put_volume: '4521616.428571428571'
-            bearish_premium: '258905527'
-            bullish_premium: '238729761'
-            call_premium: '293824502'
-            call_volume: 1844830
-            full_name: S&P 500 Index
-            high: '447.11'
-            last: '446.15'
-            low: '444.8'
-            marketcap: '406517275500'
-            open: '444.93'
-            prev_close: '444.85'
-            prev_date: 2023-09-07
-            put_premium: '244159205'
-            put_volume: 2009005
-            ticker: SPY
-            volume: 23132119
-            week52_high: '459.44'
-            week52_low: '342.65'
+        avg30_call_volume: '3636459.000000000000'
+        avg30_put_volume: '4796289.166666666667'
+        avg30_stock_volume: '74402355'
+        avg_30_day_call_volume: '3636459.000000000000'
+        avg_30_day_put_volume: '4796289.166666666667'
+        avg_7_day_call_volume: '3343061.285714285714'
+        avg_7_day_put_volume: '4521616.428571428571'
+        bearish_premium: '258905527'
+        bullish_premium: '238729761'
+        call_premium: '293824502'
+        call_volume: 1844830
+        full_name: S&P 500 Index
+        high: '447.11'
+        last: '446.15'
+        low: '444.8'
+        marketcap: '406517275500'
+        open: '444.93'
+        prev_close: '444.85'
+        prev_date: 2023-09-07
+        put_premium: '244159205'
+        put_volume: 2009005
+        ticker: SPY
+        volume: 23132119
+        week52_high: '459.44'
+        week52_low: '342.65'
       properties:
         avg30_stock_volume:
           $ref: '#/components/schemas/Market General Avg 30 Day Stock Volume'
@@ -4058,6 +4343,42 @@ components:
           $ref: '#/components/schemas/Stock Week 52 low'
       title: Sector ETF
       type: object
+    Sector ETF Results:
+      description: An array of 1 or more ETFs.
+      example:
+        - data:
+          - avg30_call_volume: '3636459.000000000000'
+            avg30_put_volume: '4796289.166666666667'
+            avg30_stock_volume: '74402355'
+            avg_30_day_call_volume: '3636459.000000000000'
+            avg_30_day_put_volume: '4796289.166666666667'
+            avg_7_day_call_volume: '3343061.285714285714'
+            avg_7_day_put_volume: '4521616.428571428571'
+            bearish_premium: '258905527'
+            bullish_premium: '238729761'
+            call_premium: '293824502'
+            call_volume: 1844830
+            full_name: S&P 500 Index
+            high: '447.11'
+            last: '446.15'
+            low: '444.8'
+            marketcap: '406517275500'
+            open: '444.93'
+            prev_close: '444.85'
+            prev_date: 2023-09-07
+            put_premium: '244159205'
+            put_volume: 2009005
+            ticker: SPY
+            volume: 23132119
+            week52_high: '459.44'
+            week52_low: '342.65'
+      tyoe: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Sector ETF Results'
     Sectors:
       description: An array of 1 or more sectors.
       example:
@@ -4068,6 +4389,28 @@ components:
         $ref: '#/components/schemas/Single sector'
       title: Sectors
       type: array
+      maxItems: 10000
+    Congressional Trade Report Results:
+      title: Congressional Trade Report Results
+      description: An array of 1 or more trade reports.
+      examples:
+        data:
+          - amounts: $15,001 - $50,000
+            filed_at_date: 2023-02-13
+            issuer: not-disclosed
+            member_type: house
+            notes: 'Subholding Of: Stephens Advantage Account Description: FT UNIT 10479 PFD mutual-fund 32500'
+            reporter: Stephen Cohen
+            ticker: FHWVOX
+            transaction_date: 2023-02-06
+            txn_type: Buy
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Congressional Trade Report'
     Congressional Trade Report:
       description: Congressional Stock Filings
       example:
@@ -4276,7 +4619,15 @@ components:
       example: '152099632406.9564'
       title: Spot Call Vanna Exposure
       type: string
-    Spot GEX exposures per 1min:
+    Spot GEX Exposures Per 1min Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Spot GEX Exposures Per 1min'
+    Spot GEX Exposures Per 1min:
       description: ''
       example:
         data:
@@ -4328,7 +4679,15 @@ components:
       example: '152099632406.9564'
       title: Spot Put Vanna Exposure
       type: string
-    Spot greek exposures by strike:
+    Spot Greek Exposures by Strike Results:
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Spot Greek Exposures by Strike'
+    Spot Greek Exposures by Strike:
       description: ''
       example:
         data:
@@ -4530,7 +4889,17 @@ components:
       example: '120.12'
       title: Stock Price Level
       type: string
-    Stock Screener response:
+    Stock Screener Response Results:
+      title: Stock Screener Response Results
+      description: Response schema for stock screener requests.
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Stock Screener Response'
+    Stock Screener Response:
       description: Response schema for stock screener requests.
       example:
         data:
@@ -4668,7 +5037,7 @@ components:
           $ref: '#/components/schemas/Stock Week 52 High'
         week_52_low:
           $ref: '#/components/schemas/Stock Week 52 low'
-      title: Stock Screener response
+      title: Stock Screener Response
       type: object
     Stock Short Description:
       description: Short description about what the stock does.
@@ -4725,6 +5094,11 @@ components:
       example: AAPL,INTC
       title: Ticker
       type: string
+    Ticker Info Results:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Ticker Info'
     Ticker Info:
       description: General information about the given ticker.
       example:
@@ -4888,6 +5262,16 @@ components:
       example: '0.15'
       title: Vega
       type: string
+    Volume & OI per Expiry Results:
+      title: Volume & OI per Expiry Results
+      description: The volume and open interest per expiry.
+      type: object
+      properties:
+        data:
+          type: array
+          maxItems: 100000
+          items:
+            $ref: '#/components/schemas/Volume & OI per Expiry'
     Volume & OI per Expiry:
       description: The volume and open interest per expiry.
       example:
@@ -4919,15 +5303,18 @@ components:
 info:
   contact:
     email: support@unusualwhales.com
-    name: API Support
+    name: Unusual Whales Support
   description: |
+    # Unofficial Unusual Whales Python Client
     This is an unsupported, open source, python client to interact with the unusual whales applies.
-    The entire api is supported as of the time of publishing. 2024-05-04
-    Documentation for the official [unusualwhales](https://unusualwhales.com) api
-    ## Request Access
-    To request access to the API, please contact us at [support@unusualwhales.com], an api key is required.
+    It is not recommended to use this client in production, instead refer to the repository for the official client.
+    on github and fork the source code so you can adjust it to your needs.
+    Link to the repository: https://github.com/macanderson/unusual-whales-api-client
   title: Unusual Whales API
-  version: '0.0.2'
+  version: 0.0.2
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
 openapi: 3.1.0
 paths:
   /api/congress/congress-trader:
@@ -4958,11 +5345,11 @@ paths:
             $ref: '#/components/schemas/Congress Member'
       responses:
         '200':
+          description: Congressional Trade Results
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Congressional Trade Report'
-          description: Succeeded
+                $ref: '#/components/schemas/Congressional Trade Report Results'
         '422':
           content:
             application/json:
@@ -5001,11 +5388,11 @@ paths:
             $ref: '#/components/schemas/Trading Day'
       responses:
         '200':
+          description: Congressional Trade Report Results
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Congressional Trade Report'
-          description: Succeeded
+                $ref: '#/components/schemas/Congressional Trade Report Results'
         '422':
           content:
             application/json:
@@ -5044,11 +5431,11 @@ paths:
             $ref: '#/components/schemas/Trading Day'
       responses:
         '200':
+          description: Recent Congressional Trade Reports
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Congressional Trade Report'
-          description: Succeeded
+                $ref: '#/components/schemas/Congressional Trade Report Results'
         '422':
           content:
             application/json:
@@ -5087,11 +5474,11 @@ paths:
             $ref: '#/components/schemas/Trading Day'
       responses:
         '200':
+          description: Recent Congressional Trade Reports
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Congressional Trade Report'
-          description: Succeeded
+                $ref: '#/components/schemas/Congressional Trade Report Results'
         '422':
           content:
             application/json:
@@ -5130,11 +5517,11 @@ paths:
             $ref: '#/components/schemas/Trading Day'
       responses:
         '200':
+          description: Returns the latest darkpool trades
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Darkpool Trade'
-          description: Succeeded
+                $ref: '#/components/schemas/Darkpool Trade Results'
         '422':
           content:
             application/json:
@@ -5179,11 +5566,11 @@ paths:
             $ref: '#/components/schemas/DynLimitAqamqyhhbyd'
       responses:
         '200':
+          description: Returns the darkpool trades for the given ticker on a given day.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Darkpool Trade'
-          description: Succeeded
+                $ref: '#/components/schemas/Darkpool Trade Results'
         '422':
           content:
             application/json:
@@ -5216,11 +5603,11 @@ paths:
             $ref: '#/components/schemas/Trading Day'
       responses:
         '200':
+          description: Returns the next upcoming afterhours earnings for the given date.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Earning'
-          description: Succeeded
+                $ref: '#/components/schemas/Earnings Results'
         '422':
           content:
             application/json:
@@ -5256,7 +5643,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Earning'
+                $ref: '#/components/schemas/Earnings Results'
           description: Succeeded
         '422':
           content:
@@ -5291,7 +5678,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Earning'
+                $ref: '#/components/schemas/Earnings Results'
           description: Succeeded
         '422':
           content:
@@ -5326,7 +5713,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Holdings'
+                $ref: '#/components/schemas/Holdings Results'
           description: etfs holding ticker
       summary: Ticker Exposure by ETF
       tags:
@@ -5349,7 +5736,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Holdings'
+                $ref: '#/components/schemas/Holdings Results'
           description: holdings of the etf
       summary: ETF Holdings
       tags:
@@ -5372,7 +5759,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Etf Info'
+                  $ref: '#/components/schemas/Etf Info'
           description: Succeeded
         '422':
           content:
@@ -5611,7 +5998,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Daily Market Tide'
+                $ref: '#/components/schemas/Daily Market Tide Results'
           description: Succeeded
         '422':
           content:
@@ -5660,7 +6047,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OI Change'
+                $ref: '#/components/schemas/OI Change Results'
           description: oi change results
       summary: Returns the Option Contracts With The Highest Open Interest Change by Date
       tags:
@@ -5682,7 +6069,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Sector ETF'
+                $ref: '#/components/schemas/Sector ETF Results'
           description: sector etfs
         '500':
           content:
@@ -5826,7 +6213,7 @@ paths:
           name: id
           required: true
           schema:
-            $ref: '#/components/schemas/OptionContract'
+            $ref: '#/components/schemas/OptionContractIsoName'
         - description: bid or ask side
           in: query
           name: side
@@ -5887,7 +6274,7 @@ paths:
           required: true
           example: SPY042021C11500
           schema:
-            $ref: '#/components/schemas/OptionContract'
+            $ref: '#/components/schemas/OptionContractIsoName'
         - description: limit the number of results returned
           in: query
           name: limit
@@ -5899,7 +6286,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Option contract'
+                $ref: '#/components/schemas/Option Chain Contract Results'
           description: Succeeded
         '422':
           content:
@@ -6156,7 +6543,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Analyst Rating'
+                $ref: '#/components/schemas/Analyst Rating Results'
           description: Succeeded
         '422':
           content:
@@ -6410,7 +6797,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Option Contract Screener response.'
+                $ref: '#/components/schemas/Option Contract Screener Results'
           description: Succeeded
         '422':
           content:
@@ -6796,7 +7183,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stock Screener response'
+                $ref: '#/components/schemas/Stock Screener Response'
           description: Succeeded
         '422':
           content:
@@ -6825,7 +7212,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Seasonality Market'
+                $ref: '#/components/schemas/Seasonality Market Results'
           description: seasonality market response
         '500':
           content:
@@ -6897,7 +7284,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Seasonality Performers'
+                $ref: '#/components/schemas/Seasonality Performers Results'
           description: Succeeded
         '422':
           content:
@@ -6932,7 +7319,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Seasonality Monthly'
+                $ref: '#/components/schemas/Seasonality Monthly Results'
           description: Succeeded
         '422':
           content:
@@ -6967,7 +7354,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Seasonality Year Month'
+                $ref: '#/components/schemas/Seasonality Year Month Results'
           description: Succeeded
         '422':
           content:
@@ -6984,108 +7371,6 @@ paths:
       summary: Price change per month per year
       tags:
         - seasonality
-  /api/socket:
-    get:
-      callbacks: {}
-      description: |
-        Returns the available WebSocket channels for connections.
-        
-        ## Websocket Guide
-        Important: Websockets are not part of the basic API subscription. To be able to connect to WebSockets, please
-        contact us at support@unusualwhales.com.
-        
-        The following channels are available:
-        | Channel              | Description                                                                                                           |
-        |----------------------|-----------------------------------------------------------------------------------------------------------------------|
-        | option_trades        | Receive all option trades live through out the trading session                                                        |
-        | option_trades:TICKER | Similar to `option_trades` but receive all trades only for the specified ticker                                       |
-        | flow-alerts          | Receive all flow alerts. The data can be used to build a similar view as https://unusualwhales.com/option-flow-alerts |
-        | price:TICKER         | Receive live price updates for the given ticker.                                                                      |
-        
-        The `option_trades` channel will stream all 6,000,000 option trades in real-time, `option_trades:<TICKER>` will stream
-        all option trades for the given ticker in real-time.
-        
-        `flow-alerts` will stream from the alerts [page](https://unusualwhales.com/option-flow-alerts?limit=50)
-        
-        ## Connect
-        We will use [websocat](https://github.com/vi/websocat) to demonstrate how to connect to the WebSocket server.
-        
-        ```bash
-        websocat "wss://api.unusualwhales.com/socket?token=<YOUR_API_TOKEN>"
-        {"channel":"option_trades","msg_type":"join"}
-        ```
-        The server will then reply with
-        ```bash
-        ["option_trades",{"response":{},"status":"ok"}]
-        ```
-        indicating that the connection was successful.
-        
-        You will then receive data in the following format:
-        ```bash
-        [<CHANNEL_NAME>, <PAYLOAD>]
-        ```
-        during market hours.
-        
-        To receive the trades only for a specific ticker, use the following command:
-        ```bash
-        {"channel":"option_trades","msg_type":"join"}
-        ```
-        
-        You can join multiple channels with the same websocket connection:
-        ```bash
-        websocat "wss://api.unusualwhales.com/socket?token=<YOUR_API_TOKEN>"
-        {"channel":"option_trades","msg_type":"join"}
-        ["option_trades",{"response":{},"status":"ok"}]
-        {"channel":"option_trades:JPM","msg_type":"join"}
-        ["option_trades:JPM",{"response":{},"status":"ok"}]
-        ```
-        
-        ## Using a client
-        If you are using Python, you can use the [websocket-client](https://github.com/websocket-client/websocket-client) library to connect to the server.
-        
-        ```python
-        import websocket
-        import time
-        import rel
-        import json
-        
-        def on_message(ws, msg):
-            msg = json.loads(msg)
-            channel, payload = msg
-            print(f"Got a message on channel {channel}: Payload: {payload}")
-        
-        def on_error(ws, error):
-            print(error)
-        
-        def on_close(ws, close_status_code, close_msg):
-            print("### closed ###")
-        
-        def on_open(ws):
-            print("Opened connection")
-            msg = {"channel":"option_trades","msg_type":"join"}
-            ws.send(json.dumps(msg))
-        
-        if __name__ == "__main__":
-            websocket.enableTrace(False)
-            ws = websocket.WebSocketApp("wss://api.unusualwhales.com/socket?token=<YOUR_TOKEN>",
-                                      on_open=on_open,
-                                      on_message=on_message,
-                                      on_error=on_error,
-                                      on_close=on_close)
-        
-            ws.run_forever(dispatcher=rel, reconnect=5)  # Set dispatcher to automatic reconnection, 5 second reconnect delay if connection closed unexpectedly
-            rel.signal(2, rel.abort)  # Keyboard Interrupt
-            rel.dispatch()
-        
-        
-        ## Historic data
-        To download/access historic data, use the endpoint [/api/option-trades/full-tape](https://api.unusualwhales.com/docs#/operations/PublicApi.OptionTradeController.full_tape)
-      operationId: channels
-      parameters: []
-      responses: {}
-      summary: Unusual Whales websocket channels
-      tags:
-        - websocket
   /api/stock/{sector}/tickers:
     get:
       callbacks: {}
@@ -7104,7 +7389,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Market Sector Tickers'
+                $ref: '#/components/schemas/Market Sector Ticker Results'
           description: Succeeded
         '422':
           content:
@@ -7145,7 +7430,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Option Contract Screener response.'
+                $ref: '#/components/schemas/Option Chain Contract Results'
           description: Succeeded
         '422':
           content:
@@ -7187,7 +7472,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Expiry breakdown'
+                $ref: '#/components/schemas/Expiry Breakdown Results'
           description: Succeeded
         '422':
           content:
@@ -7228,7 +7513,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Flow Alert'
+                $ref: '#/components/schemas/Flow Alert Results'
           description: Succeeded
         '422':
           content:
@@ -7263,7 +7548,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Flow per expiry'
+                $ref: '#/components/schemas/Flow Per Expiry Results'
           description: ''
       summary: Option Order Flow for a Ticker Grouped by Expiry
       tags:
@@ -7286,7 +7571,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Flow per strike'
+                $ref: '#/components/schemas/Flow Per Strike Results'
           description: Succeeded
         '422':
           content:
@@ -7333,7 +7618,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Flow per expiry'
+                $ref: '#/components/schemas/Flow Per Expiry Results'
           description: Succeeded
         '422':
           content:
@@ -7389,7 +7674,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Greek Exposure'
+                $ref: '#/components/schemas/Greek Exposure Results'
           description: Succeeded
         '422':
           content:
@@ -7431,7 +7716,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Greek Exposure By Strike'
+                $ref: '#/components/schemas/Greek Exposure By Strike Results'
           description: Succeeded
         '422':
           content:
@@ -7473,7 +7758,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Greek Exposure By Strike'
+                $ref: '#/components/schemas/Greek Exposure By Strike Results'
           description: Succeeded
         '422':
           content:
@@ -7521,7 +7806,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Greek Exposure By Strike And Expiry'
+                $ref: '#/components/schemas/Greek Exposure By Strike and Expiry Results'
           description: Succeeded
         '422':
           content:
@@ -7629,7 +7914,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Historical Risk Reversal Skew'
+                $ref: '#/components/schemas/Historical Risk Reversal Skew Results'
           description: Succeeded
         '422':
           content:
@@ -7664,7 +7949,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Ticker Info'
+                $ref: '#/components/schemas/Ticker Info Results'
           description: ''
         '404':
           content:
@@ -7706,7 +7991,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Insider statistics'
+                $ref: '#/components/schemas/Insider Statistics Results'
           description: Succeeded
         '422':
           content:
@@ -7741,7 +8026,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Max Pain'
+                $ref: '#/components/schemas/Max Pain Results'
           description: Succeeded
         '422':
           content:
@@ -7826,7 +8111,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Net Prem Tick response.'
+                $ref: '#/components/schemas/Net Prem Tick Results'
           description: Succeeded
         '422':
           content:
@@ -7887,7 +8172,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Candle data'
+                $ref: '#/components/schemas/Candle Data Results'
           description: Succeeded
         '422':
           content:
@@ -7942,7 +8227,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OI Change'
+                $ref: '#/components/schemas/OI Change Results'
           description: ''
       summary: OI Change
       tags:
@@ -7959,7 +8244,7 @@ paths:
         `^(?<symbol>[\w]*)(?<expiry>(\d{2})(\d{2})(\d{2}))(?<type>[PC])(?<strike>\d{8})$`
         
         Keep in mind that the strike needs to be divided by 1,000.
-      operationId: getTradeableOptionContractTickers
+      operationId: getOptionChains
       parameters:
         - description: ticker symbol
           in: path
@@ -7979,7 +8264,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Option Chains response'
+                $ref: '#/components/schemas/Option Chains Results'
           description: Succeeded
         '422':
           content:
@@ -8082,7 +8367,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Option contracts'
+                $ref: '#/components/schemas/Option Chain Contract Results'
           description: Succeeded
         '422':
           content:
@@ -8124,7 +8409,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Option Price Level'
+                $ref: '#/components/schemas/Option Price Level Results'
           description: Succeeded
         '422':
           content:
@@ -8166,7 +8451,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Volume & OI per Expiry'
+                $ref: '#/components/schemas/Volume & OI per Expiry Results'
           description: Succeeded
         '422':
           content:
@@ -8267,7 +8552,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Spot GEX exposures per 1min'
+                $ref: '#/components/schemas/Spot GEX Exposures Per 1min Results'
           description: Succeeded
         '422':
           content:
@@ -8325,7 +8610,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Spot greek exposures by strike'
+                $ref: '#/components/schemas/Spot Greek Exposures by Strike'
           description: Succeeded
         '422':
           content:
@@ -8373,7 +8658,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Off Lit Price Level'
+                $ref: '#/components/schemas/Off Lit Price Level Results'
           description: Succeeded
         '422':
           content:
@@ -8415,7 +8700,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Implied Volatility Term Structure'
+                $ref: '#/components/schemas/Implied Volatility Term Structure Results'
           description: Succeeded
         '422':
           content:

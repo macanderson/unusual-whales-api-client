@@ -12,7 +12,6 @@ from .market import MarketEndpoints
 from .screener import ScreenerEndpoints
 from .seasonality import SeasonalityEndpoints
 from .stock import StockEndpoints
-from .websocket import WebsocketEndpoints
 
 
 class UnusualWhalesApiClientApi:
@@ -51,10 +50,6 @@ class UnusualWhalesApiClientApi:
     @classmethod
     def seasonality(cls) -> Type[SeasonalityEndpoints]:
         return SeasonalityEndpoints
-
-    @classmethod
-    def websocket(cls) -> Type[WebsocketEndpoints]:
-        return WebsocketEndpoints
 
     @classmethod
     def stock(cls) -> Type[StockEndpoints]:

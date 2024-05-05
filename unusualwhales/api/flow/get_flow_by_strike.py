@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.flow_per_strike import FlowPerStrike
+from ...models.flow_per_strike_results import FlowPerStrikeResults
 from ...types import Response
 
 
@@ -23,12 +23,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorMessage, FlowPerStrike, str]]:
+) -> Optional[Union[ErrorMessage, FlowPerStrikeResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = FlowPerStrike.from_dict(response.json())
+        response_200 = FlowPerStrikeResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -46,7 +46,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorMessage, FlowPerStrike, str]]:
+) -> Response[Union[ErrorMessage, FlowPerStrikeResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,7 +59,7 @@ def sync_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[Union[ErrorMessage, FlowPerStrike, str]]:
+) -> Response[Union[ErrorMessage, FlowPerStrikeResults, str]]:
     """Option Order Flow for a Ticker Grouped By Strike
 
      Returns the option flow per strike for the last Trading Day
@@ -72,7 +72,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, FlowPerStrike, str]]
+        Response[Union[ErrorMessage, FlowPerStrikeResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -90,7 +90,7 @@ def sync(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[ErrorMessage, FlowPerStrike, str]]:
+) -> Optional[Union[ErrorMessage, FlowPerStrikeResults, str]]:
     """Option Order Flow for a Ticker Grouped By Strike
 
      Returns the option flow per strike for the last Trading Day
@@ -103,7 +103,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, FlowPerStrike, str]
+        Union[ErrorMessage, FlowPerStrikeResults, str]
     """
 
     return sync_detailed(
@@ -116,7 +116,7 @@ async def asyncio_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[Union[ErrorMessage, FlowPerStrike, str]]:
+) -> Response[Union[ErrorMessage, FlowPerStrikeResults, str]]:
     """Option Order Flow for a Ticker Grouped By Strike
 
      Returns the option flow per strike for the last Trading Day
@@ -129,7 +129,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, FlowPerStrike, str]]
+        Response[Union[ErrorMessage, FlowPerStrikeResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -145,7 +145,7 @@ async def asyncio(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[ErrorMessage, FlowPerStrike, str]]:
+) -> Optional[Union[ErrorMessage, FlowPerStrikeResults, str]]:
     """Option Order Flow for a Ticker Grouped By Strike
 
      Returns the option flow per strike for the last Trading Day
@@ -158,7 +158,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, FlowPerStrike, str]
+        Union[ErrorMessage, FlowPerStrikeResults, str]
     """
 
     return (

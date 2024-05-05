@@ -17,16 +17,11 @@ class DarkpoolTrade:
     """A darkpool trade.
 
     Example:
-        {'data': [{'canceled': False, 'executed_at': datetime.datetime(2023, 2, 16, 0, 59, 44,
-            tzinfo=datetime.timezone.utc), 'ext_hour_sold_codes': 'extended_hours_trade', 'market_center': 'L', 'nbbo_ask':
-            '19', 'nbbo_ask_quantity': 6600, 'nbbo_bid': '18.99', 'nbbo_bid_quantity': 29100, 'premium': '121538.56',
-            'price': '18.9904', 'sale_cond_codes': None, 'size': 6400, 'ticker': 'QID', 'tracking_id': 71984388012245,
-            'trade_code': None, 'trade_settlement': 'regular_settlement', 'volume': 9946819}, {'canceled': False,
-            'executed_at': datetime.datetime(2023, 2, 16, 0, 59, 44, tzinfo=datetime.timezone.utc), 'ext_hour_sold_codes':
+        {'executed_at': datetime.datetime(2023, 2, 16, 0, 59, 44, tzinfo=datetime.timezone.utc), 'ext_hour_sold_codes':
             'extended_hours_trade', 'market_center': 'L', 'nbbo_ask': '19', 'nbbo_ask_quantity': 6600, 'nbbo_bid': '18.99',
-            'nbbo_bid_quantity': 29100, 'premium': '353214', 'price': '18.99', 'sale_cond_codes': None, 'size': 18600,
-            'ticker': 'QID', 'tracking_id': 71984384768588, 'trade_code': None, 'trade_settlement': 'regular_settlement',
-            'volume': 9940419}]}
+            'nbbo_bid_quantity': 29100, 'premium': '121538.56', 'price': '18.9904', 'sale_cond_codes': None, 'size': 6400,
+            'ticker': 'QID', 'tracking_id': 71984388012245, 'trade_code': None, 'trade_settlement': 'regular_settlement',
+            'volume': 9946819}
 
     Attributes:
         canceled (Union[Unset, bool]): Whether the trade has been cancelled. Example: True.

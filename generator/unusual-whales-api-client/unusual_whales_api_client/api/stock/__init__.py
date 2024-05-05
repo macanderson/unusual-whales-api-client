@@ -16,6 +16,7 @@ from . import (
     get_max_pain,
     get_net_premium_ticks,
     get_open_interest_change,
+    get_option_chains,
     get_option_contracts,
     get_option_volume_by_price_level,
     get_options_volume,
@@ -23,7 +24,6 @@ from . import (
     get_sector_tickers,
     get_spot_exposures,
     get_spot_exposures_by_strike,
-    get_tradeable_option_contract_tickers,
     get_volatility_term_structure,
     get_volume_by_price_level,
     get_volume_open_interest_by_expiry,
@@ -252,7 +252,7 @@ class StockEndpoints:
         return get_open_interest_change
 
     @classmethod
-    def get_tradeable_option_contract_tickers(cls) -> types.ModuleType:
+    def get_option_chains(cls) -> types.ModuleType:
         """
                 Tradeable Option Contracts By Ticker
                 =======================================================================
@@ -267,7 +267,7 @@ class StockEndpoints:
         Keep in mind that the strike needs to be divided by 1,000.
 
         """
-        return get_tradeable_option_contract_tickers
+        return get_option_chains
 
     @classmethod
     def get_option_contracts(cls) -> types.ModuleType:

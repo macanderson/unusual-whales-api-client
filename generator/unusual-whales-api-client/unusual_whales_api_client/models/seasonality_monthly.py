@@ -13,10 +13,8 @@ class SeasonalityMonthly:
     """The price change for the ticker in the month over the given count of years.
 
     Example:
-        {'data': [{'avg_change': 0.0034, 'max_change': 0.0635, 'median_change': 0.0195, 'min_change': -0.0727, 'month':
-            1, 'positive_closes': 2, 'positive_months_perc': 0.6667, 'years': 3}, {'avg_change': -0.0153, 'max_change':
-            0.0724, 'median_change': -0.0153, 'min_change': -0.1029, 'month': 4, 'positive_closes': 1,
-            'positive_months_perc': 0.5, 'years': 2}]}
+        {'avg_change': 0.0034, 'max_change': 0.0635, 'median_change': 0.0195, 'min_change': -0.0727, 'month': 1,
+            'positive_closes': 2, 'positive_months_perc': 0.6667, 'years': 3}
 
     Attributes:
         avg_change (Union[Unset, float]): The average relative price change per day for the month. Example:

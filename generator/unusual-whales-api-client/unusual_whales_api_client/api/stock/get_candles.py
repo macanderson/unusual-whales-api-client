@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.candle_data import CandleData
+from ...models.candle_data_results import CandleDataResults
 from ...models.candle_size import CandleSize
 from ...models.error_message import ErrorMessage
 from ...types import UNSET, Response, Unset
@@ -41,12 +41,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[CandleData, ErrorMessage, str]]:
+) -> Optional[Union[CandleDataResults, ErrorMessage, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = CandleData.from_dict(response.json())
+        response_200 = CandleDataResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -64,7 +64,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[CandleData, ErrorMessage, str]]:
+) -> Response[Union[CandleDataResults, ErrorMessage, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -81,7 +81,7 @@ def sync_detailed(
     timeframe: Union[Unset, str] = UNSET,
     trading_day: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
-) -> Response[Union[CandleData, ErrorMessage, str]]:
+) -> Response[Union[CandleDataResults, ErrorMessage, str]]:
     """OHLC
 
      Returns the Open High Low Close (OHLC) candle data for a given ticker.
@@ -109,7 +109,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CandleData, ErrorMessage, str]]
+        Response[Union[CandleDataResults, ErrorMessage, str]]
     """
 
     kwargs = _get_kwargs(
@@ -135,7 +135,7 @@ def sync(
     timeframe: Union[Unset, str] = UNSET,
     trading_day: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
-) -> Optional[Union[CandleData, ErrorMessage, str]]:
+) -> Optional[Union[CandleDataResults, ErrorMessage, str]]:
     """OHLC
 
      Returns the Open High Low Close (OHLC) candle data for a given ticker.
@@ -163,7 +163,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CandleData, ErrorMessage, str]
+        Union[CandleDataResults, ErrorMessage, str]
     """
 
     return sync_detailed(
@@ -184,7 +184,7 @@ async def asyncio_detailed(
     timeframe: Union[Unset, str] = UNSET,
     trading_day: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
-) -> Response[Union[CandleData, ErrorMessage, str]]:
+) -> Response[Union[CandleDataResults, ErrorMessage, str]]:
     """OHLC
 
      Returns the Open High Low Close (OHLC) candle data for a given ticker.
@@ -212,7 +212,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CandleData, ErrorMessage, str]]
+        Response[Union[CandleDataResults, ErrorMessage, str]]
     """
 
     kwargs = _get_kwargs(
@@ -236,7 +236,7 @@ async def asyncio(
     timeframe: Union[Unset, str] = UNSET,
     trading_day: Union[Unset, str] = UNSET,
     limit: Union[Unset, int] = UNSET,
-) -> Optional[Union[CandleData, ErrorMessage, str]]:
+) -> Optional[Union[CandleDataResults, ErrorMessage, str]]:
     """OHLC
 
      Returns the Open High Low Close (OHLC) candle data for a given ticker.
@@ -264,7 +264,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CandleData, ErrorMessage, str]
+        Union[CandleDataResults, ErrorMessage, str]
     """
 
     return (

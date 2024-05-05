@@ -9,7 +9,7 @@ from ...models.error_message import ErrorMessage
 from ...models.error_message_stating_that_the_requested_element_was_not_found_causing_an_empty_result_to_be_generated import (
     ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
 )
-from ...models.ticker_info import TickerInfo
+from ...models.ticker_info_results import TickerInfoResults
 from ...types import Response
 
 
@@ -30,7 +30,7 @@ def _parse_response(
     Union[
         ErrorMessage,
         ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
+        TickerInfoResults,
         str,
     ]
 ]:
@@ -38,7 +38,7 @@ def _parse_response(
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = TickerInfo.from_dict(response.json())
+        response_200 = TickerInfoResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.NOT_FOUND:
@@ -66,7 +66,7 @@ def _build_response(
     Union[
         ErrorMessage,
         ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
+        TickerInfoResults,
         str,
     ]
 ]:
@@ -86,7 +86,7 @@ def sync_detailed(
     Union[
         ErrorMessage,
         ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
+        TickerInfoResults,
         str,
     ]
 ]:
@@ -102,7 +102,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfoResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -124,7 +124,7 @@ def sync(
     Union[
         ErrorMessage,
         ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
+        TickerInfoResults,
         str,
     ]
 ]:
@@ -140,7 +140,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfoResults, str]
     """
 
     return sync_detailed(
@@ -157,7 +157,7 @@ async def asyncio_detailed(
     Union[
         ErrorMessage,
         ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
+        TickerInfoResults,
         str,
     ]
 ]:
@@ -173,7 +173,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfoResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -193,7 +193,7 @@ async def asyncio(
     Union[
         ErrorMessage,
         ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
+        TickerInfoResults,
         str,
     ]
 ]:
@@ -209,7 +209,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfoResults, str]
     """
 
     return (

@@ -16,6 +16,5 @@ from unusual_whales_api_client import flow
 from unusual_whales_api_client import contract
 from unusual_whales_api_client import screener
 from unusual_whales_api_client import seasonality
-from unusual_whales_api_client import websocket
 from unusual_whales_api_client import stock
 ```

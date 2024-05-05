@@ -13,9 +13,8 @@ class MaxPain:
     """the strike with the highest premiums at stake for puts and calls
 
     Example:
-        {'data': [{'date': datetime.date(2024, 3, 4), 'values': [[datetime.date(2024, 3, 4), '473'],
-            [datetime.date(2024, 3, 5), '472']]}, {'date': datetime.date(2024, 3, 5), 'values': [[datetime.date(2024, 3, 5),
-            '472'], [datetime.date(2024, 3, 6), '474']]}]}
+        {'date': datetime.date(2024, 3, 4), 'values': [[datetime.date(2024, 3, 4), '473'], [datetime.date(2024, 3, 5),
+            '472']]}
 
     Attributes:
         date (Union[Unset, str]): A trading date in ISO format YYYY-MM-DD Example: 2023-09-08.

@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.sector_etf import SectorETF
+from ...models.sector_etf_results import SectorETFResults
 from ...types import Response
 
 
@@ -20,12 +20,12 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[SectorETF, str]]:
+) -> Optional[Union[SectorETFResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = SectorETF.from_dict(response.json())
+        response_200 = SectorETFResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
@@ -39,7 +39,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[SectorETF, str]]:
+) -> Response[Union[SectorETFResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -51,7 +51,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[Union[SectorETF, str]]:
+) -> Response[Union[SectorETFResults, str]]:
     """Returns the stats for sector etfs for the most recent trading day
 
      Returns the current Trading Days statistics for the SPDR sector etfs
@@ -66,7 +66,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[SectorETF, str]]
+        Response[Union[SectorETFResults, str]]
     """
 
     kwargs = _get_kwargs()
@@ -81,7 +81,7 @@ def sync_detailed(
 def sync(
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[SectorETF, str]]:
+) -> Optional[Union[SectorETFResults, str]]:
     """Returns the stats for sector etfs for the most recent trading day
 
      Returns the current Trading Days statistics for the SPDR sector etfs
@@ -96,7 +96,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[SectorETF, str]
+        Union[SectorETFResults, str]
     """
 
     return sync_detailed(
@@ -107,7 +107,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[Union[SectorETF, str]]:
+) -> Response[Union[SectorETFResults, str]]:
     """Returns the stats for sector etfs for the most recent trading day
 
      Returns the current Trading Days statistics for the SPDR sector etfs
@@ -122,7 +122,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[SectorETF, str]]
+        Response[Union[SectorETFResults, str]]
     """
 
     kwargs = _get_kwargs()
@@ -135,7 +135,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[SectorETF, str]]:
+) -> Optional[Union[SectorETFResults, str]]:
     """Returns the stats for sector etfs for the most recent trading day
 
      Returns the current Trading Days statistics for the SPDR sector etfs
@@ -150,7 +150,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[SectorETF, str]
+        Union[SectorETFResults, str]
     """
 
     return (

@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.congressional_trade_report import CongressionalTradeReport
+from ...models.congressional_trade_report_results import CongressionalTradeReportResults
 from ...models.error_message import ErrorMessage
 from ...types import UNSET, Response, Unset
 
@@ -38,12 +38,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[CongressionalTradeReport, ErrorMessage, str]]:
+) -> Optional[Union[CongressionalTradeReportResults, ErrorMessage, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = CongressionalTradeReport.from_dict(response.json())
+        response_200 = CongressionalTradeReportResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -61,7 +61,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[CongressionalTradeReport, ErrorMessage, str]]:
+) -> Response[Union[CongressionalTradeReportResults, ErrorMessage, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -76,7 +76,7 @@ def sync_detailed(
     limit: Union[Unset, int] = UNSET,
     date: Union[Unset, str] = UNSET,
     name: Union[Unset, str] = UNSET,
-) -> Response[Union[CongressionalTradeReport, ErrorMessage, str]]:
+) -> Response[Union[CongressionalTradeReportResults, ErrorMessage, str]]:
     """Recent Reports By Trader
 
      Returns the recent reports by the given congress member.
@@ -98,7 +98,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CongressionalTradeReport, ErrorMessage, str]]
+        Response[Union[CongressionalTradeReportResults, ErrorMessage, str]]
     """
 
     kwargs = _get_kwargs(
@@ -120,7 +120,7 @@ def sync(
     limit: Union[Unset, int] = UNSET,
     date: Union[Unset, str] = UNSET,
     name: Union[Unset, str] = UNSET,
-) -> Optional[Union[CongressionalTradeReport, ErrorMessage, str]]:
+) -> Optional[Union[CongressionalTradeReportResults, ErrorMessage, str]]:
     """Recent Reports By Trader
 
      Returns the recent reports by the given congress member.
@@ -142,7 +142,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CongressionalTradeReport, ErrorMessage, str]
+        Union[CongressionalTradeReportResults, ErrorMessage, str]
     """
 
     return sync_detailed(
@@ -159,7 +159,7 @@ async def asyncio_detailed(
     limit: Union[Unset, int] = UNSET,
     date: Union[Unset, str] = UNSET,
     name: Union[Unset, str] = UNSET,
-) -> Response[Union[CongressionalTradeReport, ErrorMessage, str]]:
+) -> Response[Union[CongressionalTradeReportResults, ErrorMessage, str]]:
     """Recent Reports By Trader
 
      Returns the recent reports by the given congress member.
@@ -181,7 +181,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[CongressionalTradeReport, ErrorMessage, str]]
+        Response[Union[CongressionalTradeReportResults, ErrorMessage, str]]
     """
 
     kwargs = _get_kwargs(
@@ -201,7 +201,7 @@ async def asyncio(
     limit: Union[Unset, int] = UNSET,
     date: Union[Unset, str] = UNSET,
     name: Union[Unset, str] = UNSET,
-) -> Optional[Union[CongressionalTradeReport, ErrorMessage, str]]:
+) -> Optional[Union[CongressionalTradeReportResults, ErrorMessage, str]]:
     """Recent Reports By Trader
 
      Returns the recent reports by the given congress member.
@@ -223,7 +223,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[CongressionalTradeReport, ErrorMessage, str]
+        Union[CongressionalTradeReportResults, ErrorMessage, str]
     """
 
     return (

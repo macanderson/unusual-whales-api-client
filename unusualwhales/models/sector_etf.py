@@ -12,14 +12,14 @@ T = TypeVar("T", bound="SectorETF")
 class SectorETF:
     """
     Example:
-        {'data': [{'avg30_call_volume': '3636459.000000000000', 'avg30_put_volume': '4796289.166666666667',
-            'avg30_stock_volume': '74402355', 'avg_30_day_call_volume': '3636459.000000000000', 'avg_30_day_put_volume':
-            '4796289.166666666667', 'avg_7_day_call_volume': '3343061.285714285714', 'avg_7_day_put_volume':
-            '4521616.428571428571', 'bearish_premium': '258905527', 'bullish_premium': '238729761', 'call_premium':
-            '293824502', 'call_volume': 1844830, 'full_name': 'S&P 500 Index', 'high': '447.11', 'last': '446.15', 'low':
-            '444.8', 'marketcap': '406517275500', 'open': '444.93', 'prev_close': '444.85', 'prev_date': datetime.date(2023,
-            9, 7), 'put_premium': '244159205', 'put_volume': 2009005, 'ticker': 'SPY', 'volume': 23132119, 'week52_high':
-            '459.44', 'week52_low': '342.65'}]}
+        {'avg30_call_volume': '3636459.000000000000', 'avg30_put_volume': '4796289.166666666667', 'avg30_stock_volume':
+            '74402355', 'avg_30_day_call_volume': '3636459.000000000000', 'avg_30_day_put_volume': '4796289.166666666667',
+            'avg_7_day_call_volume': '3343061.285714285714', 'avg_7_day_put_volume': '4521616.428571428571',
+            'bearish_premium': '258905527', 'bullish_premium': '238729761', 'call_premium': '293824502', 'call_volume':
+            1844830, 'full_name': 'S&P 500 Index', 'high': '447.11', 'last': '446.15', 'low': '444.8', 'marketcap':
+            '406517275500', 'open': '444.93', 'prev_close': '444.85', 'prev_date': datetime.date(2023, 9, 7), 'put_premium':
+            '244159205', 'put_volume': 2009005, 'ticker': 'SPY', 'volume': 23132119, 'week52_high': '459.44', 'week52_low':
+            '342.65'}
 
     Attributes:
         avg30_stock_volume (Union[Unset, str]): Avg 30 day stock volume. Example: 74402355.

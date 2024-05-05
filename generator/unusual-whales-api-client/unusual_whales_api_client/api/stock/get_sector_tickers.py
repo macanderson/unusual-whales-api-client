@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
+from ...models.market_sector_ticker_results import MarketSectorTickerResults
 from ...models.sector import Sector
 from ...types import Response
 
@@ -23,12 +24,13 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, ErrorMessage, str]]:
+) -> Optional[Union[ErrorMessage, MarketSectorTickerResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = response.json()
+        response_200 = MarketSectorTickerResults.from_dict(response.json())
+
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = ErrorMessage.from_dict(response.json())
@@ -45,7 +47,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, ErrorMessage, str]]:
+) -> Response[Union[ErrorMessage, MarketSectorTickerResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,7 +60,7 @@ def sync_detailed(
     sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[Union[Any, ErrorMessage, str]]:
+) -> Response[Union[ErrorMessage, MarketSectorTickerResults, str]]:
     """Return Tickers for a Given Sector
 
      Returns a list of tickers which are in the given sector.
@@ -71,7 +73,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, ErrorMessage, str]]
+        Response[Union[ErrorMessage, MarketSectorTickerResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -89,7 +91,7 @@ def sync(
     sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[Any, ErrorMessage, str]]:
+) -> Optional[Union[ErrorMessage, MarketSectorTickerResults, str]]:
     """Return Tickers for a Given Sector
 
      Returns a list of tickers which are in the given sector.
@@ -102,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, ErrorMessage, str]
+        Union[ErrorMessage, MarketSectorTickerResults, str]
     """
 
     return sync_detailed(
@@ -115,7 +117,7 @@ async def asyncio_detailed(
     sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[Union[Any, ErrorMessage, str]]:
+) -> Response[Union[ErrorMessage, MarketSectorTickerResults, str]]:
     """Return Tickers for a Given Sector
 
      Returns a list of tickers which are in the given sector.
@@ -128,7 +130,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, ErrorMessage, str]]
+        Response[Union[ErrorMessage, MarketSectorTickerResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -144,7 +146,7 @@ async def asyncio(
     sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[Any, ErrorMessage, str]]:
+) -> Optional[Union[ErrorMessage, MarketSectorTickerResults, str]]:
     """Return Tickers for a Given Sector
 
      Returns a list of tickers which are in the given sector.
@@ -157,7 +159,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, ErrorMessage, str]
+        Union[ErrorMessage, MarketSectorTickerResults, str]
     """
 
     return (

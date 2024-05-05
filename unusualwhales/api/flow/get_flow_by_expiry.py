@@ -5,7 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.flow_per_expiry import FlowPerExpiry
+from ...models.flow_per_expiry_results import FlowPerExpiryResults
 from ...types import Response
 
 
@@ -20,12 +20,14 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[FlowPerExpiry]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[FlowPerExpiryResults]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = FlowPerExpiry.from_dict(response.json())
+        response_200 = FlowPerExpiryResults.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -34,7 +36,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[FlowPerExpiry]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[FlowPerExpiryResults]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -47,7 +51,7 @@ def sync_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[FlowPerExpiry]:
+) -> Response[FlowPerExpiryResults]:
     """Option Order Flow for a Ticker Grouped by Expiry
 
      Returns all option orders grouped by expiry for a given ticker for the last Trading Day
@@ -60,7 +64,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FlowPerExpiry]
+        Response[FlowPerExpiryResults]
     """
 
     kwargs = _get_kwargs(
@@ -78,7 +82,7 @@ def sync(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[FlowPerExpiry]:
+) -> Optional[FlowPerExpiryResults]:
     """Option Order Flow for a Ticker Grouped by Expiry
 
      Returns all option orders grouped by expiry for a given ticker for the last Trading Day
@@ -91,7 +95,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FlowPerExpiry
+        FlowPerExpiryResults
     """
 
     return sync_detailed(
@@ -104,7 +108,7 @@ async def asyncio_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[FlowPerExpiry]:
+) -> Response[FlowPerExpiryResults]:
     """Option Order Flow for a Ticker Grouped by Expiry
 
      Returns all option orders grouped by expiry for a given ticker for the last Trading Day
@@ -117,7 +121,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FlowPerExpiry]
+        Response[FlowPerExpiryResults]
     """
 
     kwargs = _get_kwargs(
@@ -133,7 +137,7 @@ async def asyncio(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[FlowPerExpiry]:
+) -> Optional[FlowPerExpiryResults]:
     """Option Order Flow for a Ticker Grouped by Expiry
 
      Returns all option orders grouped by expiry for a given ticker for the last Trading Day
@@ -146,7 +150,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FlowPerExpiry
+        FlowPerExpiryResults
     """
 
     return (

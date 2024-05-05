@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.historical_risk_reversal_skew import HistoricalRiskReversalSkew
+from ...models.historical_risk_reversal_skew_results import HistoricalRiskReversalSkewResults
 from ...types import UNSET, Response, Unset
 
 
@@ -42,12 +42,12 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]:
+) -> Optional[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]:
     response_json = response.json()
     if response_json.get("data") is not None:
         response_json = response_json["data"]
     if response.status_code == HTTPStatus.OK:
-        response_200 = HistoricalRiskReversalSkew.from_dict(response.json())
+        response_200 = HistoricalRiskReversalSkewResults.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
@@ -65,7 +65,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]:
+) -> Response[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,7 +82,7 @@ def sync_detailed(
     expiry: str,
     timeframe: Union[Unset, str] = UNSET,
     delta: Any,
-) -> Response[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]:
+) -> Response[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]:
     """Historical Risk Reversal Skew by Expiry and Ticker
 
      Returns the historical risk reversal skew (the difference between put and call volatility) at a
@@ -109,7 +109,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]
+        Response[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -135,7 +135,7 @@ def sync(
     expiry: str,
     timeframe: Union[Unset, str] = UNSET,
     delta: Any,
-) -> Optional[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]:
+) -> Optional[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]:
     """Historical Risk Reversal Skew by Expiry and Ticker
 
      Returns the historical risk reversal skew (the difference between put and call volatility) at a
@@ -162,7 +162,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, HistoricalRiskReversalSkew, str]
+        Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]
     """
 
     return sync_detailed(
@@ -183,7 +183,7 @@ async def asyncio_detailed(
     expiry: str,
     timeframe: Union[Unset, str] = UNSET,
     delta: Any,
-) -> Response[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]:
+) -> Response[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]:
     """Historical Risk Reversal Skew by Expiry and Ticker
 
      Returns the historical risk reversal skew (the difference between put and call volatility) at a
@@ -210,7 +210,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]
+        Response[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]
     """
 
     kwargs = _get_kwargs(
@@ -234,7 +234,7 @@ async def asyncio(
     expiry: str,
     timeframe: Union[Unset, str] = UNSET,
     delta: Any,
-) -> Optional[Union[ErrorMessage, HistoricalRiskReversalSkew, str]]:
+) -> Optional[Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]]:
     """Historical Risk Reversal Skew by Expiry and Ticker
 
      Returns the historical risk reversal skew (the difference between put and call volatility) at a
@@ -261,7 +261,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, HistoricalRiskReversalSkew, str]
+        Union[ErrorMessage, HistoricalRiskReversalSkewResults, str]
     """
 
     return (
