@@ -6,10 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.error_message_stating_that_the_requested_element_was_not_found_causing_an_empty_result_to_be_generated import (
-    ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-)
-from ...models.ticker_info import TickerInfo
+from ...models.flow_per_strike import FlowPerStrike
 from ...types import Response
 
 
@@ -18,7 +15,7 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": f"/api/stock/{ticker}/info",
+        "url": f"/api/stock/{ticker}/flow-per-strike",
     }
 
     return _kwargs
@@ -26,24 +23,11 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
+) -> Optional[Union[ErrorMessage, FlowPerStrike, str]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = TickerInfo.from_dict(response.json())
+        response_200 = FlowPerStrike.from_dict(response.json())
 
         return response_200
-    if response.status_code == HTTPStatus.NOT_FOUND:
-        response_404 = ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated.from_dict(
-            response.json()
-        )
-
-        return response_404
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = ErrorMessage.from_dict(response.json())
 
@@ -59,14 +43,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
+) -> Response[Union[ErrorMessage, FlowPerStrike, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,17 +56,10 @@ def sync_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Response[Union[ErrorMessage, FlowPerStrike, str]]:
+    """Option Order Flow for a Ticker Grouped By Strike
 
-     Returns a information about the given ticker.
+     Returns the option flow per strike for the last Trading Day
 
     Args:
         ticker (str): A single ticker Example: AAPL.
@@ -99,7 +69,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[ErrorMessage, FlowPerStrike, str]]
     """
 
     kwargs = _get_kwargs(
@@ -117,17 +87,10 @@ def sync(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Optional[Union[ErrorMessage, FlowPerStrike, str]]:
+    """Option Order Flow for a Ticker Grouped By Strike
 
-     Returns a information about the given ticker.
+     Returns the option flow per strike for the last Trading Day
 
     Args:
         ticker (str): A single ticker Example: AAPL.
@@ -137,7 +100,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[ErrorMessage, FlowPerStrike, str]
     """
 
     return sync_detailed(
@@ -150,17 +113,10 @@ async def asyncio_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Response[Union[ErrorMessage, FlowPerStrike, str]]:
+    """Option Order Flow for a Ticker Grouped By Strike
 
-     Returns a information about the given ticker.
+     Returns the option flow per strike for the last Trading Day
 
     Args:
         ticker (str): A single ticker Example: AAPL.
@@ -170,7 +126,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[ErrorMessage, FlowPerStrike, str]]
     """
 
     kwargs = _get_kwargs(
@@ -186,17 +142,10 @@ async def asyncio(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Optional[Union[ErrorMessage, FlowPerStrike, str]]:
+    """Option Order Flow for a Ticker Grouped By Strike
 
-     Returns a information about the given ticker.
+     Returns the option flow per strike for the last Trading Day
 
     Args:
         ticker (str): A single ticker Example: AAPL.
@@ -206,7 +155,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[ErrorMessage, FlowPerStrike, str]
     """
 
     return (

@@ -10,7 +10,7 @@ T = TypeVar("T", bound="FlowPerExpiry")
 
 @_attrs_define
 class FlowPerExpiry:
-    """The flow data per expiry for a trading day.
+    """The flow data per expiry for a Trading Day.
 
     Example:
         {'data': [{'call_otm_premium': '3885339', 'call_otm_trades': 10213, 'call_otm_volume': 81598, 'call_premium':

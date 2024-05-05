@@ -6,19 +6,16 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.error_message_stating_that_the_requested_element_was_not_found_causing_an_empty_result_to_be_generated import (
-    ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-)
-from ...models.ticker_info import TickerInfo
+from ...models.sector import Sector
 from ...types import Response
 
 
 def _get_kwargs(
-    ticker: str,
+    sector: Sector,
 ) -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": f"/api/stock/{ticker}/info",
+        "url": f"/api/stock/{sector}/tickers",
     }
 
     return _kwargs
@@ -26,24 +23,10 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
+) -> Optional[Union[Any, ErrorMessage, str]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = TickerInfo.from_dict(response.json())
-
+        response_200 = response.json()
         return response_200
-    if response.status_code == HTTPStatus.NOT_FOUND:
-        response_404 = ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated.from_dict(
-            response.json()
-        )
-
-        return response_404
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = ErrorMessage.from_dict(response.json())
 
@@ -59,14 +42,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
+) -> Response[Union[Any, ErrorMessage, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -76,34 +52,27 @@ def _build_response(
 
 
 def sync_detailed(
-    ticker: str,
+    sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Response[Union[Any, ErrorMessage, str]]:
+    """Return Tickers for a Given Sector
 
-     Returns a information about the given ticker.
+     Returns a list of tickers which are in the given sector.
 
     Args:
-        ticker (str): A single ticker Example: AAPL.
+        sector (Sector): A financial sector. Example: Technology.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[Any, ErrorMessage, str]]
     """
 
     kwargs = _get_kwargs(
-        ticker=ticker,
+        sector=sector,
     )
 
     response = client.get_httpx_client().request(
@@ -114,67 +83,53 @@ def sync_detailed(
 
 
 def sync(
-    ticker: str,
+    sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Optional[Union[Any, ErrorMessage, str]]:
+    """Return Tickers for a Given Sector
 
-     Returns a information about the given ticker.
+     Returns a list of tickers which are in the given sector.
 
     Args:
-        ticker (str): A single ticker Example: AAPL.
+        sector (Sector): A financial sector. Example: Technology.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[Any, ErrorMessage, str]
     """
 
     return sync_detailed(
-        ticker=ticker,
+        sector=sector,
         client=client,
     ).parsed
 
 
 async def asyncio_detailed(
-    ticker: str,
+    sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Response[Union[Any, ErrorMessage, str]]:
+    """Return Tickers for a Given Sector
 
-     Returns a information about the given ticker.
+     Returns a list of tickers which are in the given sector.
 
     Args:
-        ticker (str): A single ticker Example: AAPL.
+        sector (Sector): A financial sector. Example: Technology.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[Any, ErrorMessage, str]]
     """
 
     kwargs = _get_kwargs(
-        ticker=ticker,
+        sector=sector,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -183,35 +138,28 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    ticker: str,
+    sector: Sector,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+) -> Optional[Union[Any, ErrorMessage, str]]:
+    """Return Tickers for a Given Sector
 
-     Returns a information about the given ticker.
+     Returns a list of tickers which are in the given sector.
 
     Args:
-        ticker (str): A single ticker Example: AAPL.
+        sector (Sector): A financial sector. Example: Technology.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[Any, ErrorMessage, str]
     """
 
     return (
         await asyncio_detailed(
-            ticker=ticker,
+            sector=sector,
             client=client,
         )
     ).parsed

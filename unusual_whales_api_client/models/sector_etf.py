@@ -42,13 +42,13 @@ class SectorETF:
         marketcap (Union[Unset, str]): The marketcap of the underlying ticker. If the issue type of the ticker is ETF
             then the marketcap represents the AUM. Example: 2965813810400.
         open_ (Union[Unset, str]): The opening price of the candle. Example: 54.29.
-        prev_close (Union[Unset, str]): The previous trading day's stock price of the ticker. Example: 189.70.
-        prev_date (Union[Unset, str]): The date of the previous trading day in ISO format. Example: 2023-09-07.
+        prev_close (Union[Unset, str]): The previous Trading Day's stock price of the ticker. Example: 189.70.
+        prev_date (Union[Unset, str]): The date of the previous Trading Day in ISO format. Example: 2023-09-07.
         put_premium (Union[Unset, str]): The sum of the premium of all the put transactions that executed. Example:
             163537151.
         put_volume (Union[Unset, int]): The sum of the size of all the put transactions that executed. Example: 808326.
         ticker (Union[Unset, str]): The stock ticker. Example: AAPL.
-        volume (Union[Unset, int]): The volume of the ticker for the trading day. Example: 23132119.
+        volume (Union[Unset, int]): The volume of the ticker for the Trading Day. Example: 23132119.
         week_52_high (Union[Unset, str]): The 52 week high stock price of the ticker. Example: 198.23.
         week_52_low (Union[Unset, str]): The 52 week low stock price of the ticker. Example: 124.17.
     """

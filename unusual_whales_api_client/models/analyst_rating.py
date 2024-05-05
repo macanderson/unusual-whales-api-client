@@ -26,18 +26,18 @@ class AnalystRating:
             Investment (DRETF)'}]}
 
     Attributes:
-        action (Union[Unset, AnalystFieldAction]): The action of the recommendation. Example: maintained.
+        action (Union[Unset, AnalystFieldAction]): The action of the recommendation. Example: upgraded.
         analyst_name (Union[Unset, str]): The name of the analyst. Example: David Vogt.
         firm (Union[Unset, str]): The firm the analyst is working for. Example: UBS.
         rating (Union[Unset, float]): The rating of the analyst. Example: 2.44.
         recommendation (Union[Unset, AnalystFieldRecommendation]): The recommendation the analyst gave out. Example:
-            Hold.
+            Buy.
         sector (Union[Unset, MarketGeneralSector]): The financial sector of the ticker. Empty if unknown or not
             applicable such as ETF/Index. Example: Technology.
-        target (Union[Unset, str]): The target price of the rating. Example: 190.0.
-        ticker (Union[Unset, Any]): A financial sector.
-        timestamp (Union[Unset, str]): The UTC timestamp, when the rating was released. Example: 2023-09-08
-            12:21:10+00:00.
+        target (Union[Unset, str]): The target price of the rating.
+        ticker (Union[Unset, str]): The stock ticker. Example: AAPL.
+        timestamp (Union[Unset, str]): The UTC timestamp as a string, when the rating was released. Example: 2023-09-11
+            11:21:12+00:00.
         title (Union[Unset, str]): The news title of the rating that went out. Example: China news could create demand
             headwind for Apple in Dec. quarter, says UBS.
     """
@@ -49,7 +49,7 @@ class AnalystRating:
     recommendation: Union[Unset, AnalystFieldRecommendation] = UNSET
     sector: Union[Unset, MarketGeneralSector] = UNSET
     target: Union[Unset, str] = UNSET
-    ticker: Union[Unset, Any] = UNSET
+    ticker: Union[Unset, str] = UNSET
     timestamp: Union[Unset, str] = UNSET
     title: Union[Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)

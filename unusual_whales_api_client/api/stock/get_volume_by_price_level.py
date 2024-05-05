@@ -5,52 +5,54 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.oi_change import OIChange
-from ...models.order_direction import OrderDirection
+from ...models.error_message import ErrorMessage
+from ...models.off_lit_price_level import OffLitPriceLevel
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
+    ticker: str,
     *,
     date: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = UNSET,
-    order: Union[Unset, OrderDirection] = UNSET,
 ) -> Dict[str, Any]:
     params: Dict[str, Any] = {}
 
     params["date"] = date
 
-    params["limit"] = limit
-
-    json_order: Union[Unset, str] = UNSET
-    if not isinstance(order, Unset):
-        json_order = order.value
-
-    params["order"] = json_order
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": "/api/market/oi-change",
+        "url": f"/api/stock/{ticker}/stock-volume-price-levels",
         "params": params,
     }
 
     return _kwargs
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[OIChange]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[ErrorMessage, OffLitPriceLevel, str]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = OIChange.from_dict(response.json())
+        response_200 = OffLitPriceLevel.from_dict(response.json())
 
         return response_200
+    if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
+        response_422 = ErrorMessage.from_dict(response.json())
+
+        return response_422
+    if response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR:
+        response_500 = response.text
+        return response_500
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[OIChange]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[ErrorMessage, OffLitPriceLevel, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -60,40 +62,38 @@ def _build_response(*, client: Union[AuthenticatedClient, Client], response: htt
 
 
 def sync_detailed(
+    ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = UNSET,
-    order: Union[Unset, OrderDirection] = UNSET,
-) -> Response[OIChange]:
-    """Returns the Option Contracts With The Highest Open Interest Change by Date
+) -> Response[Union[ErrorMessage, OffLitPriceLevel, str]]:
+    """Off/Lit Price Levels
 
-     Returns the non-Index/non-ETF contracts and OI change data with the highest OI change (default:
-    descending).
-    Date must be the current or a past date. If no date is given, returns data for the current/last
-    market day.
+     Returns the lit & off lit stock volume per price level for the given ticker.
+
+    The price level is calculated by dividing the stock volume by the total
+    ----
+    Important: The volume does **NOT** represent the full market dialy volume. It
+    only represents the volume of executed trades on exchanges operated by Nasdaq
+    and FINRA off lit exchanges.
 
     Args:
+        ticker (str): A single ticker Example: AAPL.
         date (Union[Unset, str]): A trading date in the format of YYYY-MM-DD.
             This is optional and by default the last trading date.
              Example: 2024-01-18.
-        limit (Union[Unset, int]): How many items to return. Default: 100. Max: 200. Min: 1.
-            Example: 10.
-        order (Union[Unset, OrderDirection]): Whether to sort descending or ascending. Descending
-            by default. Example: asc.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OIChange]
+        Response[Union[ErrorMessage, OffLitPriceLevel, str]]
     """
 
     kwargs = _get_kwargs(
+        ticker=ticker,
         date=date,
-        limit=limit,
-        order=order,
     )
 
     response = client.get_httpx_client().request(
@@ -104,79 +104,75 @@ def sync_detailed(
 
 
 def sync(
+    ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = UNSET,
-    order: Union[Unset, OrderDirection] = UNSET,
-) -> Optional[OIChange]:
-    """Returns the Option Contracts With The Highest Open Interest Change by Date
+) -> Optional[Union[ErrorMessage, OffLitPriceLevel, str]]:
+    """Off/Lit Price Levels
 
-     Returns the non-Index/non-ETF contracts and OI change data with the highest OI change (default:
-    descending).
-    Date must be the current or a past date. If no date is given, returns data for the current/last
-    market day.
+     Returns the lit & off lit stock volume per price level for the given ticker.
+
+    The price level is calculated by dividing the stock volume by the total
+    ----
+    Important: The volume does **NOT** represent the full market dialy volume. It
+    only represents the volume of executed trades on exchanges operated by Nasdaq
+    and FINRA off lit exchanges.
 
     Args:
+        ticker (str): A single ticker Example: AAPL.
         date (Union[Unset, str]): A trading date in the format of YYYY-MM-DD.
             This is optional and by default the last trading date.
              Example: 2024-01-18.
-        limit (Union[Unset, int]): How many items to return. Default: 100. Max: 200. Min: 1.
-            Example: 10.
-        order (Union[Unset, OrderDirection]): Whether to sort descending or ascending. Descending
-            by default. Example: asc.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OIChange
+        Union[ErrorMessage, OffLitPriceLevel, str]
     """
 
     return sync_detailed(
+        ticker=ticker,
         client=client,
         date=date,
-        limit=limit,
-        order=order,
     ).parsed
 
 
 async def asyncio_detailed(
+    ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = UNSET,
-    order: Union[Unset, OrderDirection] = UNSET,
-) -> Response[OIChange]:
-    """Returns the Option Contracts With The Highest Open Interest Change by Date
+) -> Response[Union[ErrorMessage, OffLitPriceLevel, str]]:
+    """Off/Lit Price Levels
 
-     Returns the non-Index/non-ETF contracts and OI change data with the highest OI change (default:
-    descending).
-    Date must be the current or a past date. If no date is given, returns data for the current/last
-    market day.
+     Returns the lit & off lit stock volume per price level for the given ticker.
+
+    The price level is calculated by dividing the stock volume by the total
+    ----
+    Important: The volume does **NOT** represent the full market dialy volume. It
+    only represents the volume of executed trades on exchanges operated by Nasdaq
+    and FINRA off lit exchanges.
 
     Args:
+        ticker (str): A single ticker Example: AAPL.
         date (Union[Unset, str]): A trading date in the format of YYYY-MM-DD.
             This is optional and by default the last trading date.
              Example: 2024-01-18.
-        limit (Union[Unset, int]): How many items to return. Default: 100. Max: 200. Min: 1.
-            Example: 10.
-        order (Union[Unset, OrderDirection]): Whether to sort descending or ascending. Descending
-            by default. Example: asc.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OIChange]
+        Response[Union[ErrorMessage, OffLitPriceLevel, str]]
     """
 
     kwargs = _get_kwargs(
+        ticker=ticker,
         date=date,
-        limit=limit,
-        order=order,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -185,41 +181,39 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
     date: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = UNSET,
-    order: Union[Unset, OrderDirection] = UNSET,
-) -> Optional[OIChange]:
-    """Returns the Option Contracts With The Highest Open Interest Change by Date
+) -> Optional[Union[ErrorMessage, OffLitPriceLevel, str]]:
+    """Off/Lit Price Levels
 
-     Returns the non-Index/non-ETF contracts and OI change data with the highest OI change (default:
-    descending).
-    Date must be the current or a past date. If no date is given, returns data for the current/last
-    market day.
+     Returns the lit & off lit stock volume per price level for the given ticker.
+
+    The price level is calculated by dividing the stock volume by the total
+    ----
+    Important: The volume does **NOT** represent the full market dialy volume. It
+    only represents the volume of executed trades on exchanges operated by Nasdaq
+    and FINRA off lit exchanges.
 
     Args:
+        ticker (str): A single ticker Example: AAPL.
         date (Union[Unset, str]): A trading date in the format of YYYY-MM-DD.
             This is optional and by default the last trading date.
              Example: 2024-01-18.
-        limit (Union[Unset, int]): How many items to return. Default: 100. Max: 200. Min: 1.
-            Example: 10.
-        order (Union[Unset, OrderDirection]): Whether to sort descending or ascending. Descending
-            by default. Example: asc.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OIChange
+        Union[ErrorMessage, OffLitPriceLevel, str]
     """
 
     return (
         await asyncio_detailed(
+            ticker=ticker,
             client=client,
             date=date,
-            limit=limit,
-            order=order,
         )
     ).parsed

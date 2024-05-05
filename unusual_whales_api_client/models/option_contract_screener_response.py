@@ -36,7 +36,7 @@ class OptionContractScreenerResponse:
 
             Bid side is defined as (ask + bid) / 2 > fill price.
              Example: 122789.
-        chain_prev_close (Union[Unset, str]): The previous trading day's contract price. Example: 1.29.
+        chain_prev_close (Union[Unset, str]): The previous Trading Day's contract price. Example: 1.29.
         close (Union[Unset, str]): The last fill on the contract. Example: 0.03.
         cross_volume (Union[Unset, int]): The amount of cross volume.
             Cross volume consists of all transaction that have the cross trade code.

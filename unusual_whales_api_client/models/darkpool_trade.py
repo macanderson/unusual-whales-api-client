@@ -49,7 +49,7 @@ class DarkpoolTrade:
         trade_code (Union[Unset, SingleTradeTradeCode]): The trade code. Null if none applies. Example:
             derivative_priced.
         trade_settlement (Union[Unset, SingleTradeSettlement]): The kind of trade settlement. Example: cash_settlement.
-        volume (Union[Unset, int]): The volume of the ticker for the trading day. Example: 23132119.
+        volume (Union[Unset, int]): The volume of the ticker for the Trading Day. Example: 23132119.
     """
 
     canceled: Union[Unset, bool] = UNSET

@@ -64,7 +64,7 @@ class OptionContracts:
             `^(?<symbol>[\w]*)(?<expiry>(\d{2})(\d{2})(\d{2}))(?<type>[PC])(?<strike>\d{8})$`
 
             Keep in mind that the strike needs to be multiplied by 1,000.
-        prev_oi (Union[Unset, int]): The previous trading day's open interest. Example: 18680.
+        prev_oi (Union[Unset, int]): The previous Trading Day's open interest. Example: 18680.
         stock_multi_leg_volume (Union[Unset, int]): The amount of volume that happened as part of a stock transaction
             and possibly other option contracts.
             This can be covered calls and more.

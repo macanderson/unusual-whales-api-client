@@ -6,19 +6,25 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_message import ErrorMessage
-from ...models.error_message_stating_that_the_requested_element_was_not_found_causing_an_empty_result_to_be_generated import (
-    ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-)
-from ...models.ticker_info import TickerInfo
-from ...types import Response
+from ...models.option_contract_screener_response import OptionContractScreenerResponse
+from ...types import UNSET, Response
 
 
 def _get_kwargs(
     ticker: str,
+    *,
+    expirations: str,
 ) -> Dict[str, Any]:
+    params: Dict[str, Any] = {}
+
+    params["expirations[]"] = expirations
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": f"/api/stock/{ticker}/info",
+        "url": f"/api/stock/{ticker}/atm-chains",
+        "params": params,
     }
 
     return _kwargs
@@ -26,24 +32,11 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
+) -> Optional[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = TickerInfo.from_dict(response.json())
+        response_200 = OptionContractScreenerResponse.from_dict(response.json())
 
         return response_200
-    if response.status_code == HTTPStatus.NOT_FOUND:
-        response_404 = ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated.from_dict(
-            response.json()
-        )
-
-        return response_404
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = ErrorMessage.from_dict(response.json())
 
@@ -59,14 +52,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
+) -> Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,31 +65,27 @@ def sync_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+    expirations: str,
+) -> Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+    """ATM option contracts for the given expiries
 
-     Returns a information about the given ticker.
+     Returns the ATM option contracts for the given expirations
 
     Args:
         ticker (str): A single ticker Example: AAPL.
+        expirations (str): A single expiry date in ISO date format. Example: 2024-02-02.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]
     """
 
     kwargs = _get_kwargs(
         ticker=ticker,
+        expirations=expirations,
     )
 
     response = client.get_httpx_client().request(
@@ -117,32 +99,28 @@ def sync(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+    expirations: str,
+) -> Optional[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+    """ATM option contracts for the given expiries
 
-     Returns a information about the given ticker.
+     Returns the ATM option contracts for the given expirations
 
     Args:
         ticker (str): A single ticker Example: AAPL.
+        expirations (str): A single expiry date in ISO date format. Example: 2024-02-02.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[ErrorMessage, OptionContractScreenerResponse, str]
     """
 
     return sync_detailed(
         ticker=ticker,
         client=client,
+        expirations=expirations,
     ).parsed
 
 
@@ -150,31 +128,27 @@ async def asyncio_detailed(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Response[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+    expirations: str,
+) -> Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+    """ATM option contracts for the given expiries
 
-     Returns a information about the given ticker.
+     Returns the ATM option contracts for the given expirations
 
     Args:
         ticker (str): A single ticker Example: AAPL.
+        expirations (str): A single expiry date in ISO date format. Example: 2024-02-02.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]]
+        Response[Union[ErrorMessage, OptionContractScreenerResponse, str]]
     """
 
     kwargs = _get_kwargs(
         ticker=ticker,
+        expirations=expirations,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -186,32 +160,28 @@ async def asyncio(
     ticker: str,
     *,
     client: Union[AuthenticatedClient, Client],
-) -> Optional[
-    Union[
-        ErrorMessage,
-        ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated,
-        TickerInfo,
-        str,
-    ]
-]:
-    """Ticker Information
+    expirations: str,
+) -> Optional[Union[ErrorMessage, OptionContractScreenerResponse, str]]:
+    """ATM option contracts for the given expiries
 
-     Returns a information about the given ticker.
+     Returns the ATM option contracts for the given expirations
 
     Args:
         ticker (str): A single ticker Example: AAPL.
+        expirations (str): A single expiry date in ISO date format. Example: 2024-02-02.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorMessage, ErrorMessageStatingThatTheRequestedElementWasNotFoundCausingAnEmptyResultToBeGenerated, TickerInfo, str]
+        Union[ErrorMessage, OptionContractScreenerResponse, str]
     """
 
     return (
         await asyncio_detailed(
             ticker=ticker,
             client=client,
+            expirations=expirations,
         )
     ).parsed

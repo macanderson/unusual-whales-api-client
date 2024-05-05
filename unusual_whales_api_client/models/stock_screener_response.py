@@ -65,7 +65,7 @@ class StockScreenerResponse:
         is_index (Union[Unset, bool]): Indicator, whether the ticker is an index. Example: True.
         issue_type (Union[Unset, StockIssueType]): The issue type of the ticker. Example: Common Stock.
         iv30d (Union[Unset, str]): The 30 day implied volatility. Example: 0.2038053572177887.
-        iv30d_1d (Union[Unset, str]): The previous trading day's 30 day implied volatility. Example:
+        iv30d_1d (Union[Unset, str]): The previous Trading Day's 30 day implied volatility. Example:
             0.18791808187961578.
         iv30d_1m (Union[Unset, str]): The implied volatility relative to the implied volatility throughout the previous
             year. A rank of 0 indicates that the implied volatility is the lowest it has been within the past year. A rank
@@ -86,9 +86,9 @@ class StockScreenerResponse:
             as of now or the stock does not pay dividends. Example: 2023-10-26.
         next_earnings_date (Union[Unset, datetime.date]): The next earnings date of the ticker. Null if either unknown
             as of now or if the ticker does not have any earnings such as an ETF Example: 2023-10-26.
-        prev_call_oi (Union[Unset, int]): The call open interest of the previous trading day. Example: 3994750.
-        prev_close (Union[Unset, str]): The previous trading day's stock price of the ticker. Example: 189.70.
-        prev_put_oi (Union[Unset, int]): The put open interest of the previous trading day. Example: 3679410.
+        prev_call_oi (Union[Unset, int]): The call open interest of the previous Trading Day. Example: 3994750.
+        prev_close (Union[Unset, str]): The previous Trading Day's stock price of the ticker. Example: 189.70.
+        prev_put_oi (Union[Unset, int]): The put open interest of the previous Trading Day. Example: 3679410.
         put_call_ratio (Union[Unset, str]): The put call ratio which is defined as put volume / call volume. Example:
             0.815713920982337.
         put_open_interest (Union[Unset, int]): The sum of the open interest of all the put options. Example: 3564153.

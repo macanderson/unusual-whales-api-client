@@ -34,9 +34,9 @@ class EtfInfo:
         holdings_count (Union[Unset, int]): The amount of holdings the ETF has. Example: 503.
         inception_date (Union[Unset, str]): The inception date of the ETF as an ISO date. Example: 1993-01-22.
         name (Union[Unset, str]): The full name of the ETF. Example: SPDR S&P 500 ETF Trust.
-        opt_vol (Union[Unset, int]): The total options volume traded for the last trading day. Example: 533227.
+        opt_vol (Union[Unset, int]): The total options volume traded for the last Trading Day. Example: 533227.
         put_vol (Union[Unset, int]): The sum of the size of all the put transactions that executed. Example: 808326.
-        stock_vol (Union[Unset, int]): The volume of the ticker for the trading day. Example: 23132119.
+        stock_vol (Union[Unset, int]): The volume of the ticker for the Trading Day. Example: 23132119.
         website (Union[Unset, str]): A link to the website of the ETF. Example:
             https://www.ssga.com/us/en/institutional/etfs/funds/spdr-sp-500-etf-trust-spy.
     """

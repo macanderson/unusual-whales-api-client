@@ -45,14 +45,14 @@ class Holdings:
         low (Union[Unset, str]): The lowest price of the candle. Example: 51.90.
         name (Union[Unset, str]): The name of the company. Example: APPLE INC.
         open_ (Union[Unset, str]): The opening price of the candle. Example: 54.29.
-        prev_price (Union[Unset, str]): The previous trading day's stock price of the ticker. Example: 189.70.
+        prev_price (Union[Unset, str]): The previous Trading Day's stock price of the ticker. Example: 189.70.
         put_premium (Union[Unset, str]): The sum of the premium of all the put transactions that executed. Example:
             163537151.
         put_volume (Union[Unset, int]): The sum of the size of all the put transactions that executed. Example: 808326.
         sector (Union[Unset, MarketGeneralSector]): The financial sector of the ticker. Empty if unknown or not
             applicable such as ETF/Index. Example: Technology.
         ticker (Union[Unset, str]): The stock ticker. Example: AAPL.
-        volume (Union[Unset, int]): The volume of the ticker for the trading day. Example: 23132119.
+        volume (Union[Unset, int]): The volume of the ticker for the Trading Day. Example: 23132119.
         week_52_high (Union[Unset, str]): The 52 week high stock price of the ticker. Example: 198.23.
         week_52_low (Union[Unset, str]): The 52 week low stock price of the ticker. Example: 124.17.
     """

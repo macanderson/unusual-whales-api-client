@@ -10,7 +10,7 @@ T = TypeVar("T", bound="FlowPerStrike")
 
 @_attrs_define
 class FlowPerStrike:
-    """The flow data per strike for a trading day.
+    """The flow data per strike for a Trading Day.
 
     Example:
         [{'call_otm_premium': '9908777.0', 'call_otm_trades': 6338, 'call_otm_volume': 40385, 'call_premium':

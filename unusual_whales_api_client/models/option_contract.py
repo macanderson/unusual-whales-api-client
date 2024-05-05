@@ -20,12 +20,21 @@ class OptionContract:
             0, 'sweep_volume': 752, 'total_premium': '3613.00', 'trades': 244, 'volume': 2655}]}
 
     Attributes:
-        ask_volume (Union[Unset, int]): The amount of volume that happened on the ask side. Ask side is defined as (ask + bid) / 2 < fill price. Example: 119403.
-        avg_price (Union[Unset, str]): The volume weighted average fill price of the contract. Example: 1.0465802437910297887119234370.
-        bid_volume (Union[Unset, int]): The amount of volume that happened on the bid side. Bid side is defined as (ask + bid) / 2 > fill price. Example: 122789.
-        cross_volume (Union[Unset, int]): The amount of cross volume. Cross volume consists of all transaction that have the cross trade code.
+        ask_volume (Union[Unset, int]): The amount of volume that happened on the ask side.
+
+            Ask side is defined as (ask + bid) / 2 < fill price.
+             Example: 119403.
+        avg_price (Union[Unset, str]): The volume weighted average fill price of the contract. Example:
+            1.0465802437910297887119234370.
+        bid_volume (Union[Unset, int]): The amount of volume that happened on the bid side.
+
+            Bid side is defined as (ask + bid) / 2 > fill price.
+             Example: 122789.
+        cross_volume (Union[Unset, int]): The amount of cross volume.
+            Cross volume consists of all transaction that have the cross trade code.
         date (Union[Unset, str]): A trading date in ISO format YYYY-MM-DD Example: 2023-09-08.
-        floor_volume (Union[Unset, int]): The amount of floor volume. Floor volume consists of all transaction that have the floor trade code.
+        floor_volume (Union[Unset, int]): The amount of floor volume.
+            Floor volume consists of all transaction that have the floor trade code.
              Example: 142.
         high_price (Union[Unset, str]): The highest fill on that contract. Example: 2.95.
         implied_volatility (Union[Unset, str]): The implied volatility for the last transaction. Example:
@@ -87,32 +96,52 @@ class OptionContract:
 
     def to_dict(self) -> Dict[str, Any]:
         ask_volume = self.ask_volume
+
         avg_price = self.avg_price
+
         bid_volume = self.bid_volume
+
         cross_volume = self.cross_volume
+
         date = self.date
+
         floor_volume = self.floor_volume
+
         high_price = self.high_price
+
         implied_volatility = self.implied_volatility
+
         iv_high = self.iv_high
+
         iv_low = self.iv_low
+
         last_price = self.last_price
+
         last_tape_time = self.last_tape_time
+
         low_price = self.low_price
+
         mid_volume = self.mid_volume
+
         multi_leg_volume = self.multi_leg_volume
+
         no_side_volume = self.no_side_volume
+
         open_interest = self.open_interest
+
         stock_multi_leg_volume = self.stock_multi_leg_volume
+
         sweep_volume = self.sweep_volume
+
         total_premium = self.total_premium
+
         trades = self.trades
+
         volume = self.volume
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        
         if ask_volume is not UNSET:
             field_dict["ask_volume"] = ask_volume
         if avg_price is not UNSET:
@@ -164,26 +193,47 @@ class OptionContract:
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
         ask_volume = d.pop("ask_volume", UNSET)
+
         avg_price = d.pop("avg_price", UNSET)
+
         bid_volume = d.pop("bid_volume", UNSET)
+
         cross_volume = d.pop("cross_volume", UNSET)
+
         date = d.pop("date", UNSET)
+
         floor_volume = d.pop("floor_volume", UNSET)
+
         high_price = d.pop("high_price", UNSET)
+
         implied_volatility = d.pop("implied_volatility", UNSET)
+
         iv_high = d.pop("iv_high", UNSET)
+
         iv_low = d.pop("iv_low", UNSET)
+
         last_price = d.pop("last_price", UNSET)
+
         last_tape_time = d.pop("last_tape_time", UNSET)
+
         low_price = d.pop("low_price", UNSET)
+
         mid_volume = d.pop("mid_volume", UNSET)
+
         multi_leg_volume = d.pop("multi_leg_volume", UNSET)
+
         no_side_volume = d.pop("no_side_volume", UNSET)
+
         open_interest = d.pop("open_interest", UNSET)
+
         stock_multi_leg_volume = d.pop("stock_multi_leg_volume", UNSET)
+
         sweep_volume = d.pop("sweep_volume", UNSET)
+
         total_premium = d.pop("total_premium", UNSET)
+
         trades = d.pop("trades", UNSET)
+
         volume = d.pop("volume", UNSET)
 
         option_contract = cls(
