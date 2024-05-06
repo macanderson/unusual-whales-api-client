@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "unusualwhales-python-client"
-version = "2.0"
+version = "3.0"
 description = "A client library for accessing Unusual Whales API"
 authors = ["Mac Anderson <mac@macanderson.com>"]
 readme = "README.md"

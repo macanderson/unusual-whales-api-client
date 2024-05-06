@@ -1,1 +1,0 @@
-strike: int (divide by 1000 to get decimal)
