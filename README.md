@@ -1,55 +1,38 @@
 # unusual-whales-api-client
 A client library for accessing Unusual Whales API
 
-Thank you @unusualwhales for providing an excellent api and for leaving your openapi schema unobfuscated from the network logs on your api documentation website :->)
+Thank you @unusualwhales for providing an excellent api!
 
-For feature requests email mac@macanderson.com - I do not provide support
 
-## Importing Modules
-You can import modules using the following syntax:
-
-from unusualwhales.client import Client
-from unusualwhales.api.[tag] import [function]
-from unusualwhales.models import [ModelNameHere]
-from unusualwhales.types import Response
-
+## Example Implementation
 ```python
 import os
+import decimal
 from dotenv import load_dotenv
 from unusualwhales.client import AuthenticatedClient
-from unusualwhales.api.[tag] import [function]
-from unusualwhales.models import [ModelNameHere]
-from unusualwhales.types import Response
+from unusualwhales.models import OffLitPriceLevelResults, OffLitPriceLevel
+from unusualwhales.api.stock import get_volume_by_price_level
 
-load_dotenv('/path/to/.env')
-# This app requires an api token to included when initializing a new AuthenticatedClient
-# you can use python-dotenv as shown here to save it in a .env file so that you
-# do not have unsecured code
-API_TOKEN = os.environ.get("UNUSUAL_WHALES_API_TOKEN", None)
+load_dotenv('.env')
+UW_API_TOKEN = os.environ.get("UW_API_TOKEN", None)
 
-client = AuthenticatedClient(base_url="https://api.unusualwhales.com", token=API_TOKEN)
+def main():
+    client = AuthenticatedClient(base_url="https://api.unusualwhales.com", token=UW_API_TOKEN)
+    with client as client:
+        data: OffLitPriceLevelResults = get_volume_by_price_level.sync(client=client, ticker="SPY", date="2024-05-03")
+        for row in data.data:
+            rec: OffLitPriceLevel = row
+            print(f"${rec.price}: Lit Vol:{decimal(str(rec.lit_vol))} | Dark Vol: {rec.off_vol}")
+
+if __name__ == '__main__':
+    main()
 ```
 
+## API Support
+This client supports all api endpoints with exception to websockets.
 
-```python
-import os
-
-from dotenv import load_dotenv
-
-from unusualwhales.client import AuthenticatedClient
-from unusualwhales.models import TickerOptionsVolume
-from unusualwhales.api.stock import getTickerOptionsVolume
-from unusualwhales.types import Response
-
-load_dotenv('/path/to/.env')
-API_TOKEN = os.environ.get("UNUSUAL_WHALES_API_TOKEN", None)
-
-client = AuthenticatedClient(base_url="https://api.unusualwhales.com", token=API_TOKEN)
-with client as client:
-    ticker_options_volume: Response[TickerOptionsVolume] = getTickerOptionsVolume.sync(client=client,ticker="AAPL",date="2024-05-03")
-    for option_volume in ticker_options_volume:
-        print(option_volume.strike, option_volume.volume)
-```
+You can use the openapi.yaml file to generate your own clients for unusual whales in
+any language openapi has a generator for (and alot exist).
 
 ## Async Support
 
@@ -61,8 +44,8 @@ This library works with async await to handle non blocking i/o for better perfor
 from unusualwhales.client import AuthenticatedClient
 
 async with client as client:
-    ticker_options_volume: TickerOptionsVolume = await getTickerOptionsVolume.asyncio(client=client,ticker="AAPL",date="2024-05-03")
-    for option_volume in ticker_options_volume:
+    ticker_options_volume: TickerOptionsVolumeResults = await getTickerOptionsVolume.asyncio(client=client,ticker="AAPL",date="2024-05-03")
+    for option_volume in ticker_options_volume.data:
         print(option_volume.strike, option_volume.volume)
 ```
 
@@ -91,6 +74,7 @@ def log_response(response):
 
 client = Client(
     base_url="https://api.unusualwhales.com",
+    token="YOUR_API_TOKEN"
     httpx_args={"event_hooks": {"request": [log_request], "response": [log_response]}},
 )
 ```
