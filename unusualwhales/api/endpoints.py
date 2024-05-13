@@ -1,5 +1,3 @@
-"""Contains methods for accessing the API"""
-
 from typing import Type
 
 from .congress import CongressEndpoints
@@ -13,8 +11,7 @@ from .screener import ScreenerEndpoints
 from .seasonality import SeasonalityEndpoints
 from .stock import StockEndpoints
 
-
-class UnusualWhalesApiClientApi:
+class Endpoints:
     @classmethod
     def congress(cls) -> Type[CongressEndpoints]:
         return CongressEndpoints

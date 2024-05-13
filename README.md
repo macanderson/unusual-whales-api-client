@@ -9,7 +9,8 @@ Thank you @unusualwhales for providing an excellent api!
 import os
 import decimal
 from dotenv import load_dotenv
-from unusualwhales.client import AuthenticatedClient
+from unusualwhales import UnusualWhalesClient, UnusualWhalesApi
+
 from unusualwhales.models import OffLitPriceLevelResults, OffLitPriceLevel
 from unusualwhales.api.stock import get_volume_by_price_level
 
@@ -17,7 +18,7 @@ load_dotenv('.env')
 UW_API_TOKEN = os.environ.get("UW_API_TOKEN", None)
 
 def main():
-    client = AuthenticatedClient(base_url="https://api.unusualwhales.com", token=UW_API_TOKEN)
+    client = UnusualWhalesClient(base_url="https://api.unusualwhales.com", token=UW_API_TOKEN)
     with client as client:
         data: OffLitPriceLevelResults = get_volume_by_price_level.sync(client=client, ticker="SPY", date="2024-05-03")
         for row in data.data:
@@ -41,7 +42,7 @@ This library works with async await to handle non blocking i/o for better perfor
 ```python
 # same code as before but with async/await note that the function changes from sync_detailed to asyncio_detailed
 # alternatively you can use sync and asyncio
-from unusualwhales.client import AuthenticatedClient
+from unusualwhales.client import UnusualWhalesClient
 
 async with client as client:
     ticker_options_volume: TickerOptionsVolumeResults = await getTickerOptionsVolume.asyncio(client=client,ticker="AAPL",date="2024-05-03")

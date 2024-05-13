@@ -1,8 +1,6 @@
-"""A client library for accessing Unusual Whales API"""
+# Main modules pulled forward to import more easily #
 
-from .client import AuthenticatedClient, Client
+from .api.endpoints import UnusualWhalesApi
+from .client import UnusualWhalesClient
 
-__all__ = (
-    "AuthenticatedClient",
-    "Client",
-)
+__all__ = ["UnusualWhalesApi", "UnusualWhalesClient"]

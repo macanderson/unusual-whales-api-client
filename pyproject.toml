@@ -1,16 +1,14 @@
 [tool.poetry]
 name = "unusualwhales-python-client"
-version = "3.0"
+version = "4.0.1"
 description = "A client library for accessing Unusual Whales API"
 authors = ["Mac Anderson <mac@macanderson.com>"]
 readme = "README.md"
-packages = [
-    {include = "unusualwhales"},
-]
+packages = [{ include = "unusualwhales" }]
 include = ["unusualwhales/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.12.2"
+python = "^3.10.0"
 httpx = ">=0.20.0,<0.28.0"
 attrs = ">=21.3.0"
 python-dateutil = "^2.8.0"
